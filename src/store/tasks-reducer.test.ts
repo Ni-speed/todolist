@@ -1,4 +1,11 @@
-import {removeTaskAC, tasksReducer, TasksStateType} from "./tasks-reducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer,
+    TasksStateType
+} from "./tasks-reducer";
 
 let startState: TasksStateType = {};
 beforeEach(() => {
