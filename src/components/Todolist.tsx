@@ -8,11 +8,13 @@ type TaskType = {
 type TodolistType = {
     title: string
     task: TaskType[]
+    removeTask: (id: string)=>void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
 
-    const onClickHandler = ()=> {
+    const onClickHandler = (id: string)=> {
         alert('привет')
+        props.removeTask(id)
     }
     return (
         <div>
@@ -27,7 +29,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                         <li key={ts.id}>
                             <input type={'checkbox'} checked={ts.isDone}/>
                             <span>{ts.title}</span>
-                            <button onClick={onClickHandler}>Удалить</button>
+                            <button onClick={()=>onClickHandler(ts.id)}>Удалить</button>
                         </li>
                     )
                 })
