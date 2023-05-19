@@ -11,22 +11,25 @@ type TodolistType = {
     task: TaskType[]
     removeTask: (id: string)=>void
     changeFilter: (value: FilterValueType)=>void
+    addTask: ()=>void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
 
     const onClickHandler = (id: string)=> {
-        alert('привет')
         props.removeTask(id)
     }
     const changeFilter = (value: FilterValueType)=> {
         props.changeFilter(value)
+    }
+    const addTask = ()=> {
+        props.addTask()
     }
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
                 <input placeholder={'Enter new task'}/>
-                <button>+</button>
+                <button onClick={addTask}>+</button>
             </div>
             <ul>
                 { props.task.map(ts => {
