@@ -21,8 +21,8 @@ function App() {
     if (filter === 'completed') {
         taskForTodolist = tasks.filter(ts => ts.isDone)
     }
-    const addTask = () => {
-        let newTask = {id: v1(), title: 'NewTask', isDone: false}
+    const addTask = (title: string) => {
+        let newTask = {id: v1(), title: title, isDone: false}
         let newTasks = [newTask, ...tasks]
         setTasks(newTasks)
     }
