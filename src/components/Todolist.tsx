@@ -62,7 +62,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                         props.changeTaskStatus(ts.id, e.currentTarget.checked)
                     }
                     return (
-                        <li key={ts.id}>
+                        <li key={ts.id} className={ts.isDone ? 'is-done': ''}>
                             <input type={'checkbox'}
                                    checked={ts.isDone}
                                    onChange={onChangeStatus}
@@ -76,8 +76,8 @@ export const Todolist: React.FC<TodolistType> = (props) => {
             </ul>
             <div>
                 <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={() => changeFilter('all')}>All</button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''}onClick={() => changeFilter('active')}>Active</button>
-                <button className={props.filter === 'completed' ? 'active-filter' : ''}onClick={() => changeFilter('completed')}>Completed</button>
+                <button className={props.filter === 'active' ? 'active-filter' : ''} onClick={() => changeFilter('active')}>Active</button>
+                <button className={props.filter === 'completed' ? 'active-filter' : ''} onClick={() => changeFilter('completed')}>Completed</button>
             </div>
         </div>
     );
