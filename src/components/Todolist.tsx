@@ -12,6 +12,7 @@ type TodolistType = {
     removeTask: (id: string) => void
     changeFilter: (value: FilterValueType) => void
     addTask: (title: string) => void
+    changeTaskStatus: (id: string, isDone: boolean)=>void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
     const [title, setTitle] = useState('')
@@ -42,15 +43,21 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                 <input placeholder={'Enter new task'}
                        value={title}
                        onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler}
+                       onKeyDown={onKeyPressHandler}
                 />
                 <button onClick={addTask}>+</button>
             </div>
             <ul>
                 {props.task.map(ts => {
+                    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>)=> {
+                        props.changeTaskStatus(ts.id, e.currentTarget.checked)
+                    }
                     return (
                         <li key={ts.id}>
-                            <input type={'checkbox'} checked={ts.isDone}/>
+                            <input type={'checkbox'}
+                                   checked={ts.isDone}
+                                   onChange={onChangeStatus}
+                            />
                             <span>{ts.title}</span>
                             <button onClick={() => onClickHandler(ts.id)}>Удалить</button>
                         </li>
