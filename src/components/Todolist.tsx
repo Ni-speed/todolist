@@ -12,10 +12,11 @@ type TodolistType = {
     removeTask: (id: string) => void
     changeFilter: (value: FilterValueType) => void
     addTask: (title: string) => void
-    changeTaskStatus: (id: string, isDone: boolean)=>void
+    changeTaskStatus: (id: string, isDone: boolean) => void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
     const [title, setTitle] = useState('')
+    const [error, setError] = useState<string | null>(null)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -30,9 +31,12 @@ export const Todolist: React.FC<TodolistType> = (props) => {
         if (title.trim() !== '') {
             props.addTask(title.trim())
             setTitle('')
+        } else {
+            setError('Title is required')
         }
     }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>)=> {
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null)
         if (e.key === 'Enter') {
             addTask()
         }
@@ -42,16 +46,18 @@ export const Todolist: React.FC<TodolistType> = (props) => {
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input placeholder={'Enter new task'}
+                <input className={error ? 'error' : ''}
+                       placeholder={'Enter new task'}
                        value={title}
                        onChange={onChangeHandler}
                        onKeyDown={onKeyPressHandler}
                 />
                 <button onClick={addTask}>+</button>
+                {error && <div className={'error-message'}>{error}</div>}
             </div>
             <ul>
                 {props.task.map(ts => {
-                    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>)=> {
+                    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(ts.id, e.currentTarget.checked)
                     }
                     return (
