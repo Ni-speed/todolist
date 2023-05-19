@@ -13,6 +13,7 @@ type TodolistType = {
     changeFilter: (value: FilterValueType) => void
     addTask: (title: string) => void
     changeTaskStatus: (id: string, isDone: boolean) => void
+    filter: FilterValueType
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
     const [title, setTitle] = useState('')
@@ -74,9 +75,9 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                 }
             </ul>
             <div>
-                <button onClick={() => changeFilter('all')}>All</button>
-                <button onClick={() => changeFilter('active')}>Active</button>
-                <button onClick={() => changeFilter('completed')}>Completed</button>
+                <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={() => changeFilter('all')}>All</button>
+                <button className={props.filter === 'active' ? 'active-filter' : ''}onClick={() => changeFilter('active')}>Active</button>
+                <button className={props.filter === 'completed' ? 'active-filter' : ''}onClick={() => changeFilter('completed')}>Completed</button>
             </div>
         </div>
     );
