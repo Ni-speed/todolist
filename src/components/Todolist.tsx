@@ -15,6 +15,7 @@ type TodolistType = {
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
     const [title, setTitle] = useState('')
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
@@ -24,7 +25,10 @@ export const Todolist: React.FC<TodolistType> = (props) => {
     const changeFilter = (value: FilterValueType) => {
         props.changeFilter(value)
     }
-
+    const addTask = () => {
+        props.addTask(title)
+        setTitle('')
+    }
     return (
         <div>
             <h3>{props.title}</h3>
@@ -33,7 +37,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                        value={title}
                        onChange={onChangeHandler}
                 />
-                <button onClick={()=>props.addTask(title)}>+</button>
+                <button onClick={addTask}>+</button>
             </div>
             <ul>
                 {props.task.map(ts => {
