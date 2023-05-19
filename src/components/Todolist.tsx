@@ -27,8 +27,10 @@ export const Todolist: React.FC<TodolistType> = (props) => {
         props.changeFilter(value)
     }
     const addTask = () => {
-        props.addTask(title)
-        setTitle('')
+        if (title.trim() !== '') {
+            props.addTask(title.trim())
+            setTitle('')
+        }
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>)=> {
         if (e.key === 'Enter') {
