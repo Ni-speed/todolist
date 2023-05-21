@@ -2,14 +2,17 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
+import {TaskType} from "./store/tasks-reducer";
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 export type TodoListsType = {
     id: string
     title: string
-    filter: string
+    filter: FilterValueType
 }
-
+export type TaskStateType = {
+    [key: string]: TaskType[]
+}
 function App() {
     // let [todoLists, setTodoLists] = useState<TodoListsType[]>(
     //     [
@@ -31,7 +34,7 @@ function App() {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TaskStateType>({
         [todolistID1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
