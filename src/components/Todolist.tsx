@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValueType} from "../App";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TaskType = {
     id: string
@@ -17,6 +18,7 @@ type TodolistType = {
     changeTaskStatus: (todoListId: string,id: string, isDone: boolean) => void
     filter: string
     removeTodoList: (todoListId: string) => void
+    changeTaskTitle: (todoListId: string, taskId: string,title: string)=> void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
 
@@ -33,6 +35,9 @@ export const Todolist: React.FC<TodolistType> = (props) => {
 
     const removeTodoListHandler = ()=> {
         props.removeTodoList(props.todoListId)
+    }
+    const changeTaskTitleHandler = (taskId: string, newTitle: string) => {
+        props.changeTaskTitle(props.todoListId, taskId, newTitle)
     }
 
     return (
@@ -53,7 +58,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                                    checked={ts.isDone}
                                    onChange={onChangeStatus}
                             />
-                            <span>{ts.title}</span>
+                            <EditableSpan value={ts.title} onChange={(newTitle:string)=>changeTaskTitleHandler(props.todoListId,newTitle)}/>
                             <button onClick={() => onClickHandler(ts.id)}>Удалить</button>
                         </li>
                     )
