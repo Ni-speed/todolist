@@ -19,6 +19,7 @@ type TodolistType = {
     filter: string
     removeTodoList: (todoListId: string) => void
     changeTaskTitle: (todoListId: string, taskId: string,title: string)=> void
+    changeTodoListTitle: (todoListId: string, title: string)=> void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
 
@@ -39,11 +40,14 @@ export const Todolist: React.FC<TodolistType> = (props) => {
     const changeTaskTitleHandler = (taskId: string, newTitle: string) => {
         props.changeTaskTitle(props.todoListId, taskId, newTitle)
     }
+    const changeTodoTitleHandler = (title: string)=> {
+
+    }
 
     return (
         <div>
             <h3>
-                {props.title}
+                <EditableSpan value={props.title} onChange={(newTitle:string)=>changeTodoTitleHandler(newTitle)}/>
                 <button onClick={removeTodoListHandler}>X</button>
             </h3>
             <AddItemForm addCallback={addItem}/>
