@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {FilterValueType, TodoListsType} from "../App";
+import {FilterValueType} from "../App";
 
 type TaskType = {
     id: string
@@ -10,11 +10,12 @@ type TodolistType = {
     title: string
     todoListId: string
     task: TaskType[]
-    removeTask: (id: string) => void
+    removeTask: (todoListId: string, id: string) => void
     changeFilter: (todoListId: string, value: FilterValueType) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (id: string, isDone: boolean) => void
+    addTask: (todoListId: string,title: string) => void
+    changeTaskStatus: (todoListId: string,id: string, isDone: boolean) => void
     filter: string
+    removeTodoList: (todoListId: string) => void
 }
 export const Todolist: React.FC<TodolistType> = (props) => {
     const [title, setTitle] = useState('')
@@ -24,7 +25,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
         setTitle(e.currentTarget.value)
     }
     const onClickHandler = (id: string) => {
-        props.removeTask(id)
+        props.removeTask(props.todoListId,id)
     }
 
     const onAllClickHandler = () => props.changeFilter(props.todoListId, 'all')
@@ -33,7 +34,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
 
     const addTask = () => {
         if (title.trim() !== '') {
-            props.addTask(title.trim())
+            props.addTask(props.todoListId,title.trim())
             setTitle('')
         } else {
             setError('Title is required')
@@ -45,10 +46,16 @@ export const Todolist: React.FC<TodolistType> = (props) => {
             addTask()
         }
     }
+    const removeTodoListHandler = ()=> {
+        props.removeTodoList(props.todoListId)
+    }
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <div>
+                {props.title}
+                <button onClick={removeTodoListHandler}>X</button>
+            </div>
             <div>
                 <input className={error ? 'error' : ''}
                        placeholder={'Enter new task'}
@@ -62,7 +69,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
             <ul>
                 {props.task.map(ts => {
                     const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                        props.changeTaskStatus(ts.id, e.currentTarget.checked)
+                        props.changeTaskStatus(props.todoListId,ts.id, e.currentTarget.checked)
                     }
                     return (
                         <li key={ts.id} className={ts.isDone ? 'is-done': ''}>
