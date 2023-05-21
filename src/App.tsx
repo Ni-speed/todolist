@@ -3,6 +3,7 @@ import './App.css';
 import {Todolist} from "./components/Todolist";
 import {v1} from "uuid";
 import {TaskType} from "./store/tasks-reducer";
+import {AddItemForm} from "./components/AddItemForm";
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 export type TodoListsType = {
@@ -77,10 +78,18 @@ function App() {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
         delete tasks[todoListId]
     }
+    const addTodoList = (title: string)=> {
+        let newTodoListId = v1()
+        let newTodoList: TodoListsType = {id: newTodoListId, title: title, filter: 'all'}
+        setTodoLists([newTodoList, ...todoLists])
+        setTasks({...tasks, [newTodoListId]: []
+        })
+    }
 
 
     return (
         <div className="App">
+            <AddItemForm addCallback={addTodoList}/>
             {todoLists.map(tl => {
 
                     let taskForTodolist = tasks[tl.id]
