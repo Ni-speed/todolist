@@ -1,3 +1,1 @@
-export const todoListsReducer = (state: any, action: any) => {
-
-}
+export const todoListsReducer = (state: any, action: any) => {};
