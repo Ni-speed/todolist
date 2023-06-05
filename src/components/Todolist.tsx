@@ -70,7 +70,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                         );
                     };
                     return (
-                        <li key={ts.id} className={ts.isDone ? "is-done" : ""}>
+                        <div key={ts.id} className={ts.isDone ? "is-done" : ""}>
                             <Checkbox color={'primary'}
                                       checked={ts.isDone}
                                       onChange={onChangeStatus}/>
@@ -83,7 +83,7 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                             <IconButton aria-label="delete">
                                 <DeleteIcon onClick={() => onClickHandler(ts.id)}/>
                             </IconButton>
-                        </li>
+                        </div>
                     );
                 })}
             </ul>

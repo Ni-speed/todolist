@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextField from '@mui/material/TextField';
+import IconButton from "@mui/material/IconButton";
+import AddBox from "@mui/icons-material/AddBox";
 
 export type AddItemFormType = {
     addCallback: (title: string) => void;
@@ -29,26 +30,23 @@ export const AddItemForm: React.FC<AddItemFormType> = (props) => {
 
     return (
         <div>
-            <TextField className={error ? "error" : ""}
+            <TextField error={!!error}
                        placeholder={"Enter new task"}
                        value={title}
                        onChange={onChangeHandler}
                        onKeyDown={onKeyPressHandler}
                        id="outlined-basic"
-                       label="Outlined"
-                       variant="outlined"/>
-            <AddCircleOutlineIcon
-                color="primary"
-                style={{
-                    maxWidth: "30px",
-                    maxHeight: "30px",
-                    minWidth: "30px",
-                    minHeight: "30px",
-                }}
-                onClick={addTask}
+                       label="Title"
+                       variant="outlined"
+                       helperText={error}
             />
+            <IconButton
+                color="primary"
+                onClick={addTask}>
+                <AddBox/>
+            </IconButton>
 
-            {error && <div className={"error-message"}>{error}</div>}
+            {/*{error && <div className={"error-message"}>{error}</div>}*/}
         </div>
     );
 };
