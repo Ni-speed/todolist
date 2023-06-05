@@ -2,6 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterValueType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TaskType = {
     id: string
@@ -48,7 +50,9 @@ export const Todolist: React.FC<TodolistType> = (props) => {
         <div>
             <h3>
                 <EditableSpan value={props.title} onChange={(newTitle:string)=>changeTodoTitleHandler(newTitle)}/>
-                <button onClick={removeTodoListHandler}>X</button>
+                <IconButton aria-label="delete">
+                    <DeleteIcon onClick={removeTodoListHandler} />
+                </IconButton>
             </h3>
             <AddItemForm addCallback={addItem}/>
             <ul>
@@ -63,7 +67,9 @@ export const Todolist: React.FC<TodolistType> = (props) => {
                                    onChange={onChangeStatus}
                             />
                             <EditableSpan value={ts.title} onChange={(newTitle:string)=>changeTaskTitleHandler(props.todoListId,newTitle)}/>
-                            <button onClick={() => onClickHandler(ts.id)}>Удалить</button>
+                            <IconButton aria-label="delete">
+                                <DeleteIcon onClick={() => onClickHandler(ts.id)} />
+                            </IconButton>
                         </li>
                     )
                 })
