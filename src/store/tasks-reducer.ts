@@ -6,12 +6,10 @@ const initialState: TasksStateType = {
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionType) => {
     switch (action.type) {
         case "REMOVE-TASK": {
-            return {
-                ...state,
-                [action.payload.todoListId]: state[action.payload.todoListId].filter(
-                    (el) => el.id !== action.payload.taskId
-                ),
-            };
+            return { ...state,
+                [action.payload.todoListId]: state[action.payload.todoListId]
+                .filter(ts => ts.id !== action.payload.taskId)
+            }
         }
         case "ADD-TASK": {
             const newTask = {
@@ -48,10 +46,10 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 };
 
-export const removeTaskAC = (taskId: string, todoListId: string) => {
+export const RemoveTask = (todoListId: string, taskId: string, ) => {
     return {
         type: "REMOVE-TASK",
-        payload: {taskId, todoListId},
+        payload: {todoListId, taskId },
     } as const;
 };
 export const addTaskAC = (title: string, todoListId: string) => {
@@ -60,18 +58,10 @@ export const addTaskAC = (title: string, todoListId: string) => {
         payload: {todoListId, title},
     } as const;
 };
-export const changeTaskStatusAC = (
-    taskId: string,
-    isDone: boolean,
-    todoListId: string
-) => {
+export const changeTaskStatusAC = (taskId: string,isDone: boolean,todoListId: string) => {
     return {type: "CHANGE-TASK-STATUS", taskId, isDone, todoListId} as const;
 };
-export const changeTaskTitleAC = (
-    taskId: string,
-    title: string,
-    todoListId: string
-) => {
+export const changeTaskTitleAC = (taskId: string,title: string,todoListId: string) => {
     return {type: "CHANGE-TASK-TITLE", taskId, title, todoListId} as const;
 };
 
@@ -82,7 +72,7 @@ type ActionType =
     | changeTaskTitleACType;
 
 export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
+export type RemoveTaskACType = ReturnType<typeof RemoveTask>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
 export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
 

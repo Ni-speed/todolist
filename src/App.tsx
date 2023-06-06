@@ -39,6 +39,7 @@ function App() {
         ],
     });
 
+    //Tasks
     const addTask = (todoListId: string, title: string) => {
         let newTask = {id: v1(), title: title, isDone: false};
 
@@ -51,24 +52,22 @@ function App() {
         };
         setTasks(filteredTasks);
     };
-    const changeFilter = (todoListId: string, value: FilterValueType) => {
-        let newFilteredTodoList = todoLists.map((tl) =>
-            tl.id === todoListId ? {...tl, filter: value} : tl
-        );
-        setTodoLists(newFilteredTodoList);
-    };
-    const changeTaskStatus = (
-        todoListId: string,
-        taskId: string,
-        isDone: boolean
-    ) => {
+    const changeTaskStatus = (todoListId: string, taskId: string, isDone: boolean) => {
         setTasks({
-            ...tasks,
-            [todoListId]: tasks[todoListId].map((ts) =>
+            ...tasks, [todoListId]: tasks[todoListId].map((ts) =>
                 ts.id === taskId ? {...ts, isDone: isDone} : ts
             ),
         });
     };
+    const changeTaskTitle = (todoListId: string, taskId: string, title: string) => {
+        setTasks({
+            ...tasks,
+            [todoListId]: tasks[todoListId].map((ts) =>
+                ts.id === taskId ? {...ts, title: title} : ts
+            ),
+        });
+    };
+    //Todolist
     const removeTodoList = (todoListId: string) => {
         setTodoLists(todoLists.filter((tl) => tl.id !== todoListId));
         delete tasks[todoListId];
@@ -86,24 +85,18 @@ function App() {
             [newTodoListId]: [],
         });
     };
-    const changeTaskTitle = (
-        todoListId: string,
-        taskId: string,
-        title: string
-    ) => {
-        setTasks({
-            ...tasks,
-            [todoListId]: tasks[todoListId].map((ts) =>
-                ts.id === taskId ? {...ts, title: title} : ts
-            ),
-        });
-    };
     const changeTodoListTitle = (todoListId: string, title: string) => {
         setTodoLists(
             todoLists.map((tl) =>
                 tl.id === todoListId ? {...tl, title: title} : tl
             )
         );
+    };
+    const changeFilter = (todoListId: string, value: FilterValueType) => {
+        let newFilteredTodoList = todoLists.map((tl) =>
+            tl.id === todoListId ? {...tl, filter: value} : tl
+        );
+        setTodoLists(newFilteredTodoList);
     };
 
     return (

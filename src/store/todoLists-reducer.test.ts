@@ -40,6 +40,7 @@ test(`correct filter of todolist should be changed`, ()=>{
         {id: todolistID1, title: "What to learn", filter: "all"},
         {id: todolistID2, title: "What to buy", filter: "all"},
     ]
+
     let newFilter: FilterValueType = 'completed'
 
     const endState = todoListsReducer(startState, ChangeFilter(todolistID1, newFilter))
