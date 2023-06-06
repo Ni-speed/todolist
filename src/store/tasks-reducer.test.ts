@@ -1,6 +1,6 @@
-import {TasksStateType} from "../App";
+import {TasksStateType} from "./tasks-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodolistAC} from "./todoLists-reducer";
+import {addTodolistAC, removeTodoListAC} from "./todoLists-reducer";
 
 test(`correct task should be deleted from correct array`, () => {
     const startState: TasksStateType = {
@@ -82,16 +82,15 @@ test(`title if specified task should be changed`, ()=>{
 })
 test('new array should be added when new todolist is added', () => {
     const startState: TasksStateType = {
-        'todoListId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
-        ],
-        'todoListId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
-        ]
+        'todolistID1': [
+        {id: '1', title: "HTML&CSS", isDone: true},
+        {id: '2', title: "JS", isDone: true},
+        {id: '3', title: "ReactJS", isDone: false},
+    ],
+        'todolistID2': [
+        {id: '1', title: "Rest API", isDone: true},
+        {id: '2', title: "GraphQL", isDone: true},
+    ],
     }
 
     const endState = tasksReducer(startState, addTodolistAC(' '))
@@ -105,4 +104,22 @@ test('new array should be added when new todolist is added', () => {
 
     expect(keys.length).toBe(3)
     expect(endState[newKey]).toEqual([])
+})
+test(`property with todolistId should be deleted`, ()=>{
+    const startState: TasksStateType = {
+        'todolistID1': [
+            {id: '1', title: "HTML&CSS", isDone: true},
+            {id: '2', title: "JS", isDone: true},
+            {id: '3', title: "ReactJS", isDone: false},
+        ],
+        'todolistID2': [
+            {id: '1', title: "Rest API", isDone: true},
+            {id: '2', title: "GraphQL", isDone: true},
+        ],
+    }
+    const endState = tasksReducer(startState, removeTodoListAC('todolistID1'))
+    const keys = Object.keys(endState)
+
+    expect(keys.length).toBe(1)
+    expect(endState['todolistID1']).not.toBeDefined()
 })
