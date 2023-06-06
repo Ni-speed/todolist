@@ -19,9 +19,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             };
             return {
                 ...state,
-                [action.payload.todoListId]: [
-                    newTask,
-                    ...state[action.payload.todoListId],
+                [action.payload.todoListId]: [newTask, ...state[action.payload.todoListId],
                 ],
             };
         }
@@ -46,13 +44,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 };
 
-export const RemoveTask = (todoListId: string, taskId: string, ) => {
+export const removeTaskAC = (todoListId: string, taskId: string, ) => {
     return {
         type: "REMOVE-TASK",
         payload: {todoListId, taskId },
     } as const;
 };
-export const addTaskAC = (title: string, todoListId: string) => {
+export const addTaskAC = (todoListId: string, title: string ) => {
     return {
         type: "ADD-TASK",
         payload: {todoListId, title},
@@ -72,7 +70,7 @@ type ActionType =
     | changeTaskTitleACType;
 
 export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-export type RemoveTaskACType = ReturnType<typeof RemoveTask>;
+export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
 export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
 
