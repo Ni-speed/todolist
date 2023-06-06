@@ -8,7 +8,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case "REMOVE-TASK": {
             return { ...state,
                 [action.payload.todoListId]: state[action.payload.todoListId]
-                .filter(ts => ts.id !== action.payload.taskId)
+                    .filter(ts => ts.id !== action.payload.taskId)
             }
         }
         case "ADD-TASK": {
@@ -56,7 +56,7 @@ export const addTaskAC = (todoListId: string, title: string ) => {
         payload: {todoListId, title},
     } as const;
 };
-export const changeTaskStatusAC = (taskId: string,isDone: boolean,todoListId: string) => {
+export const changeTaskStatusAC = (todoListId: string, taskId: string,isDone: boolean,) => {
     return {type: "CHANGE-TASK-STATUS", taskId, isDone, todoListId} as const;
 };
 export const changeTaskTitleAC = (taskId: string,title: string,todoListId: string) => {
@@ -64,13 +64,13 @@ export const changeTaskTitleAC = (taskId: string,title: string,todoListId: strin
 };
 
 type ActionType =
-    | RemoveTaskACType
+    | removeTaskACType
     | addTaskACType
     | changeTaskStatusACType
     | changeTaskTitleACType;
 
 export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
+export type removeTaskACType = ReturnType<typeof removeTaskAC>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
 export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
 
