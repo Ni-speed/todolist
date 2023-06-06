@@ -5,9 +5,8 @@ import {v1} from "uuid";
 export const todoListsReducer = (state: TodoListsType[], action: ActionType): TodoListsType[] => {
     switch (action.type) {
         case "ADD-TODOLIST": {
-            let newTodoListId = v1();
             let newTodoList: TodoListsType = {
-                id: newTodoListId,
+                id: action.payload.todoListId,
                 title: action.payload.title,
                 filter: "all",
             };
@@ -27,10 +26,10 @@ export const todoListsReducer = (state: TodoListsType[], action: ActionType): To
     return state
 };
 //Actions
-export const AddTodoList = (title: string) => {
+export const addTodolistAC = (title: string) => {
     return {
         type: 'ADD-TODOLIST',
-        payload: {title}
+        payload: {title, todoListId: v1()}
     } as const
 }
 export const ChangeTodoListTitle = (todoListId: string, title: string) => {
@@ -49,6 +48,6 @@ export const ChangeFilter = (todoListId: string, filter: FilterValueType) => {
 type ActionType = AddTodoListType
     | ChangeTodoListTitleType
     | ChangeFilterType
-export type AddTodoListType = ReturnType<typeof AddTodoList>
+export type AddTodoListType = ReturnType<typeof addTodolistAC>
 export type ChangeTodoListTitleType = ReturnType<typeof ChangeTodoListTitle>
 export type ChangeFilterType = ReturnType<typeof ChangeFilter>
