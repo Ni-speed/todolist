@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {Checkbox} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
@@ -13,16 +13,13 @@ type TaskPropsType = {
     removeTask: ( todoListId: string, taskId: string) => void
 }
 export const Task = (props: TaskPropsType) => {
-    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         props.changeTaskStatus(props.todoListId, props.task.id, e.currentTarget.checked)
-    };
-    const changeTaskTitleHandler = (taskId: string, newTitle: string) => {
-        debugger
-        props.changeTaskTitle(props.todoListId, taskId, newTitle);
-    };
-    const onClickHandler = (id: string) => {
-        props.removeTask(props.todoListId, id);
-    };
+    },[props.changeTaskStatus,props.todoListId, props.task.id])
+    const changeTaskTitleHandler = useCallback((newTitle: string) => {
+        props.changeTaskTitle(props.todoListId, props.task.id, newTitle);
+    }, [props.changeTaskTitle,props.task.id, props.todoListId])
+    const onClickHandler = useCallback(() => { props.removeTask(props.todoListId, props.task.id) }, [props.todoListId])
     return (
         <div>
             <Checkbox color={'primary'}
@@ -30,12 +27,10 @@ export const Task = (props: TaskPropsType) => {
                       onChange={onChangeStatus}/>
             <EditableSpan
                 value={props.task.title}
-                onChange={(newTitle: string) =>
-                    changeTaskTitleHandler(props.todoListId, newTitle)
-                }
+                onChange={changeTaskTitleHandler}
             />
-            <IconButton aria-label="delete" onClick={() => onClickHandler(props.task.id)}>
-                <DeleteIcon onClick={() => onClickHandler(props.task.id)}/>
+            <IconButton aria-label="delete" onClick={onClickHandler}>
+                <DeleteIcon/>
             </IconButton>
         </div>
     );

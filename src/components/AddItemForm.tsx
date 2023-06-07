@@ -1,12 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import TextField from '@mui/material/TextField';
 import IconButton from "@mui/material/IconButton";
-import { AddBox } from '@mui/icons-material';
+import {AddBox} from '@mui/icons-material';
 
 export type AddItemFormType = {
     addCallback: (title: string) => void;
 };
-export const AddItemForm: React.FC<AddItemFormType> = (props) => {
+export const AddItemForm: React.FC<AddItemFormType> = React.memo((props) => {
+    console.log('AddItemForm called')
     const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +23,9 @@ export const AddItemForm: React.FC<AddItemFormType> = (props) => {
         }
     };
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error !== null) {
+            setError(null)
+        }
         if (e.key === "Enter") {
             addTask();
         }
@@ -39,10 +42,10 @@ export const AddItemForm: React.FC<AddItemFormType> = (props) => {
                        helperText={error}
             />
             <IconButton color="primary" onClick={addTask} component="span">
-                <AddBox />
+                <AddBox/>
             </IconButton>
 
             {/*{error && <div className={"error-message"}>{error}</div>}*/}
         </div>
     );
-};
+})

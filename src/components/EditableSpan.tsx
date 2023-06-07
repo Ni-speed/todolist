@@ -5,7 +5,8 @@ type EditableSpanType = {
     value: string;
     onChange: (newTitle: string) => void;
 };
-export const EditableSpan: React.FC<EditableSpanType> = (props) => {
+export const EditableSpan: React.FC<EditableSpanType> = React.memo((props) => {
+    console.log('EditableSpan called')
     const [editMode, setEditMode] = useState<boolean>(false);
     const [title, setTitle] = useState(props.value);
 
@@ -39,4 +40,4 @@ export const EditableSpan: React.FC<EditableSpanType> = (props) => {
     ) : (
         <span onDoubleClick={activateEditMode}>{props.value}</span>
     );
-};
+})
