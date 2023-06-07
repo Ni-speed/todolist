@@ -1,6 +1,11 @@
 import {v1} from "uuid";
-import {FilterValueType, TodoListsType} from "../App";
-import {addTodolistAC, changeFilterAC, changeTodoListTitleAC, todoListsReducer} from "./todoLists-reducer";
+import {
+    addTodolistAC,
+    changeFilterAC,
+    changeTodoListTitleAC, FilterValueType,
+    todoListsReducer,
+    TodoListsType
+} from "./todoLists-reducer";
 
 let todolistID1: string
 let todolistID2: string

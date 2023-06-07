@@ -10,9 +10,15 @@ export const EditableSpan: React.FC<EditableSpanType> = (props) => {
     const [title, setTitle] = useState(props.value);
 
     const onDoubleClickHandler = () => {
+
         setEditMode(!editMode);
         props.onChange(title);
     };
+    const activateEditMode = () => {
+
+        setEditMode(true);
+        setTitle(props.value);
+    }
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value);
     };
@@ -31,6 +37,6 @@ export const EditableSpan: React.FC<EditableSpanType> = (props) => {
                    variant="outlined"/>
 
     ) : (
-        <span onDoubleClick={onDoubleClickHandler}>{title}</span>
+        <span onDoubleClick={activateEditMode}>{props.value}</span>
     );
 };
