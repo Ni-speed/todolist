@@ -10,10 +10,10 @@ const instance = axios.create({
 
 export const todoListApi = {
     getTodoLists() {
-        return instance.get<TodolistType[]>(`/todo-lists`)
+        return instance.get<TodoListType[]>(`/todo-lists`)
     },
     createTodoList(title: string) {
-        return instance.post<ResponseType<{ item: TodolistType }>>(`/todo-lists`, {title})
+        return instance.post<ResponseType<{ item: TodoListType }>>(`/todo-lists`, {title})
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
@@ -39,7 +39,7 @@ export const todoListApi = {
 }
 
 // Types
-export  type TodolistType = {
+export  type TodoListType = {
     id: string
     addedDate: string
     order: number
