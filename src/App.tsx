@@ -12,10 +12,10 @@ import {
     changeFilterAC,
     changeTodoListTitleAC,
     FilterValueType,
-    removeTodoListAC, setTodoListAC,
-    TodoListsType
+    removeTodoListAC, setTodoListAC, TodolistDomainType,
+
 } from "./store/todoLists-reducer";
-import {todoListApi} from "./api/todolist-api";
+import {todoListApi, } from "./api/todolist-api";
 
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
                 dispatch(setTodoListAC(res.data))
             })
     }, [])
-    const todoLists = useSelector<AppRootStateType, TodoListsType[]>(state => state.todoLists)
+    const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
     //Tasks
