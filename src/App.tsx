@@ -2,12 +2,9 @@ import React, {useCallback, useEffect} from "react";
 import "./App.css";
 import {Todolist} from "./components/Todolist";
 import {
-    addTaskAC, addTaskTC,
-    changeTaskStatusAC, changeTaskStatusTC,
-    changeTaskTitleAC,
-    removeTaskAC,
+    addTaskTC,
     removeTaskTC,
-    TasksStateType
+    TasksStateType, updateTaskTC
 } from "./store/tasks-reducer";
 import {AddItemForm} from "./components/AddItemForm";
 import {Header} from './components/header/Header';
@@ -24,10 +21,9 @@ import {
 import {TaskStatuses} from "./api/todolist-api";
 
 
-
 function App() {
     useEffect(() => {
-     dispatch(getTodoListTC())
+        dispatch(getTodoListTC())
     }, [])
 
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
@@ -46,11 +42,11 @@ function App() {
     }, [])
 
     const changeTaskStatus = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusTC(todoListId, taskId, status))
+        dispatch(updateTaskTC(todoListId, taskId, {status: status}))
     }, [])
 
     const changeTaskTitle = useCallback((todoListId: string, taskId: string, title: string) => {
-        dispatch(changeTaskTitleAC(todoListId, taskId, title))
+        dispatch(updateTaskTC(todoListId, taskId, {title: title}))
     }, [])
 
     //Todolist

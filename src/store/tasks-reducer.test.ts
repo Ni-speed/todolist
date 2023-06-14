@@ -1,5 +1,5 @@
-import {TasksStateType} from "./tasks-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {TasksStateType, updateTaskAC} from "./tasks-reducer";
+import {addTaskAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
 import {addTodolistAC, removeTodoListAC} from "./todoLists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
@@ -140,14 +140,14 @@ test(`correct task should be added to correct array`, () => {
 
 test(`status of specified task should be changed`, () => {
 
-    const endState = tasksReducer(startState, changeTaskStatusAC('todolistID1', '2', TaskStatuses.New))
+    const endState = tasksReducer(startState, updateTaskAC('todolistID1', '2', {status: TaskStatuses.New}))
     expect(endState['todolistID1'][1].status).toBe(false)
     expect(endState['todolistID2'][1].status).toBe(true)
 })
 
 test(`title if specified task should be changed`, () => {
 
-    const endState = tasksReducer(startState, changeTaskTitleAC('todolistID1', '2', 'Update Task Title'))
+    const endState = tasksReducer(startState, updateTaskAC('todolistID1', '2', {title: 'Update Task Title'}))
     expect(endState['todolistID1'][1].title).toBe('Update Task Title')
     expect(endState['todolistID2'][1].title).toBe('GraphQL')
 })

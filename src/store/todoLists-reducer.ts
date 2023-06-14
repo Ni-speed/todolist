@@ -28,10 +28,7 @@ const initialState: TodolistDomainType[] = []
 export const todoListsReducer = (state: TodolistDomainType[] = initialState, action: ActionType): TodolistDomainType[] => {
     switch (action.type) {
         case 'SET-TODOLISTS': {
-            return action.payload.todoLists.map(tl => ({
-                ...tl, filter: 'all'
-            }))
-        }
+            return action.payload.todoLists.map(tl => ({...tl, filter: 'all'})) }
         case "ADD-TODOLIST": {
             let newTodoList: TodolistDomainType = {
                 id: action.payload.todoListId,
@@ -60,12 +57,7 @@ export const todoListsReducer = (state: TodolistDomainType[] = initialState, act
 };
 //Actions
 export const setTodoListAC = (todoLists: TodoListType[]) => {
-    return {
-        type: 'SET-TODOLISTS',
-        payload: {
-            todoLists
-        }
-    } as const
+    return {type: 'SET-TODOLISTS', payload: {todoLists}} as const
 }
 export const addTodolistAC = (title: string) => {
     return {
