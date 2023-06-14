@@ -92,7 +92,7 @@ export const removeTodoListAC = (todoListId: string) => {
     } as const
 }
 // Thunks
-export const fetchTodoLists = async (dispatch: Dispatch) => {
+export const getTodoListTC = () => async (dispatch: Dispatch) => {
     let response = await todoListApi.getTodoLists()
     dispatch(setTodoListAC(response.data))
 }

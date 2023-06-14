@@ -65,13 +65,13 @@ export enum TaskPriorities {
     Later = 4
 }
 export type TaskType = {
-    description: string
+    id: string
     title: string
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
     deadline: string
-    id: string
+    description: string
     todoListId: string
     order: number
     addedDate: string
