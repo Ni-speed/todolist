@@ -1,14 +1,14 @@
-import {AnyAction, combineReducers, createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import { todoListsReducer } from "./todoLists-reducer";
 import { tasksReducer } from "./tasks-reducer";
 import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
+import thunk, {ThunkDispatch} from "redux-thunk";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todoLists: todoListsReducer,
 });
-export const store = createStore(rootReducer);
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<AppDispatchType>()

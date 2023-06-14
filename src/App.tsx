@@ -10,20 +10,16 @@ import {AppRootStateType, useAppDispatch} from "./store/store";
 import {
     addTodolistAC,
     changeFilterAC,
-    changeTodoListTitleAC,
+    changeTodoListTitleAC, fetchTodoLists,
     FilterValueType,
-    removeTodoListAC, setTodoListAC, TodolistDomainType,
-
+    removeTodoListAC, TodolistDomainType,
 } from "./store/todoLists-reducer";
-import {todoListApi, } from "./api/todolist-api";
+
 
 
 function App() {
     useEffect(() => {
-        todoListApi.getTodoLists()
-            .then(res => {
-                dispatch(setTodoListAC(res.data))
-            })
+     dispatch(fetchTodoLists)
     }, [])
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
