@@ -1,5 +1,5 @@
 import {
-    AddTodoListType,
+    AddTodoListType, changeTodolistEntityStatusAC,
     changeTodolistEntityStatusACType,
     RemoveTodoListType,
     SetTodoListACType
@@ -140,13 +140,16 @@ export const removeTaskTC = (todoListId: string, taskId: string) => async (dispa
 export const addTaskTC = (todoListId: string, title: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
         let response = await todoListApi.createTask(todoListId, title)
         if (response.data.resultCode === 0) {
             dispatch(addTaskAC(response.data.data.item))
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
         } else {
             if (response.data.messages.length) {
                 dispatch(setAppErrorAC(response.data.messages[0]))
+                dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
             } else {
                 dispatch(setAppErrorAC('Some error occurred'))
             }
@@ -154,6 +157,7 @@ export const addTaskTC = (todoListId: string, title: string) => async (dispatch:
         }
     } catch (error) {
         console.error(error)
+        dispatch(setAppStatusAC('failed'))
         dispatch(setAppErrorAC('Network error'))
     }
 }
@@ -161,18 +165,26 @@ export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateDo
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const task = getState().tasks[todoListId].find(t => t.id === taskId)
         if (task) {
-            const apiModel: UpdateTaskModelType = {
-                title: task.title,
-                startDate: task.startDate,
-                priority: task.priority,
-                description: task.description,
-                deadline: task.deadline,
-                status: task.status,
-                ...model
+            try {
+                const apiModel: UpdateTaskModelType = {
+                    title: task.title,
+                    startDate: task.startDate,
+                    priority: task.priority,
+                    description: task.description,
+                    deadline: task.deadline,
+                    status: task.status,
+                    ...model
+                }
+                dispatch(setAppStatusAC('loading'))
+                await todoListApi.updateTask(todoListId, taskId, apiModel)
+                dispatch(updateTaskAC(todoListId, taskId, model))
+                dispatch(setAppStatusAC('succeeded'))
             }
-            dispatch(setAppStatusAC('loading'))
-            await todoListApi.updateTask(todoListId, taskId, apiModel)
-            dispatch(updateTaskAC(todoListId, taskId, model))
-            dispatch(setAppStatusAC('succeeded'))
+            catch (error) {
+                console.error(error)
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC('Network error'))
+            }
+
         }
     }

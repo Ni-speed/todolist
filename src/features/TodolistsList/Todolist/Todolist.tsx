@@ -65,7 +65,7 @@ export const Todolist: React.FC<TodolistType> = React.memo((props) => {
                     <DeleteIcon/>
                 </IconButton>
             </h3>
-            <AddItemForm addCallback={addTask}/>
+            <AddItemForm addCallback={addTask} disabled={props.entityStatus === 'loading'}/>
             <div>
                 {
                     taskForTodolist.map(t => <Task key={t.id}

@@ -4,7 +4,8 @@ import IconButton from "@mui/material/IconButton";
 import {AddBox} from '@mui/icons-material';
 
 export type AddItemFormType = {
-    addCallback: (title: string) => void;
+    addCallback: (title: string) => void
+    disabled?: boolean
 };
 export const AddItemForm: React.FC<AddItemFormType> = React.memo((props) => {
     console.log('AddItemForm called')
@@ -40,8 +41,9 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo((props) => {
                        onKeyDown={onKeyPressHandler}
                        label="Enter new task"
                        helperText={error}
+                       disabled={props.disabled}
             />
-            <IconButton color="primary" onClick={addTask} component="span">
+            <IconButton color="primary" onClick={addTask} component="span" disabled={props.disabled}>
                 <AddBox/>
             </IconButton>
 
