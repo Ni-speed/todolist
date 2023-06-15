@@ -1,4 +1,9 @@
-import {AddTodoListType, RemoveTodoListType, SetTodoListACType} from "./todoLists-reducer";
+import {
+    AddTodoListType,
+    changeTodolistEntityStatusACType,
+    RemoveTodoListType,
+    SetTodoListACType
+} from "./todoLists-reducer";
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType} from "../../api/todolist-api";
@@ -15,6 +20,7 @@ type ActionType =
     | setTasksACType
     | setAppStatusACType
     | setAppErrorACType
+    | changeTodolistEntityStatusACType
 
 export type removeTaskACType = ReturnType<typeof removeTaskAC>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
@@ -146,8 +152,7 @@ export const addTaskTC = (todoListId: string, title: string) => async (dispatch:
             }
             dispatch(setAppStatusAC('failed'))
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error)
         dispatch(setAppErrorAC('Network error'))
     }

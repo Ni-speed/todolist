@@ -9,12 +9,14 @@ import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api";
 import {getTasksTC} from "../tasks-reducer";
 import {useAppDispatch} from "../../../app/store";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 
 type TodolistType = {
     title: string;
     todoListId: string;
     tasks: TaskType[];
+    entityStatus: RequestStatusType
     removeTask: (todoListId: string, id: string) => void;
     changeFilter: (todoListId: string, value: FilterValueType) => void;
     addTask: (todoListId: string, title: string) => void;
@@ -59,7 +61,7 @@ export const Todolist: React.FC<TodolistType> = React.memo((props) => {
                     value={props.title}
                     onChange={changeTodoTitleHandler}
                 />
-                <IconButton aria-label="delete" onClick={removeTodoListHandler}>
+                <IconButton aria-label="delete" onClick={removeTodoListHandler} disabled={props.entityStatus === 'loading'}>
                     <DeleteIcon/>
                 </IconButton>
             </h3>
