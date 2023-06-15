@@ -1,22 +1,20 @@
 import React, {useCallback, useEffect} from "react";
 import "./App.css";
 import {Todolist} from "./components/Todolist";
-import {
-    addTaskTC,
-    removeTaskTC,
-    TasksStateType, updateTaskTC
-} from "./store/tasks-reducer";
+import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from "./store/tasks-reducer";
 import {AddItemForm} from "./components/AddItemForm";
 import {Header} from './components/header/Header';
 import {Container, Grid} from "@mui/material";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./store/store";
 import {
-    addTodolistAC,
+    addTodoListTC,
     changeFilterAC,
     changeTodoListTitleAC,
-    FilterValueType, getTodoListTC,
-    removeTodoListAC, TodolistDomainType,
+    FilterValueType,
+    getTodoListTC,
+    removeTodoListTC,
+    TodolistDomainType,
 } from "./store/todoLists-reducer";
 import {TaskStatuses} from "./api/todolist-api";
 
@@ -51,11 +49,11 @@ function App() {
 
     //Todolist
     const removeTodoList = useCallback((todoListId: string) => {
-        dispatch(removeTodoListAC(todoListId))
+        dispatch(removeTodoListTC(todoListId))
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+        dispatch(addTodoListTC(title))
     }, [])
 
     const changeTodoListTitle = useCallback((todoListId: string, title: string) => {

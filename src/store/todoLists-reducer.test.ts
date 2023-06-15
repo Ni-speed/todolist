@@ -20,12 +20,21 @@ beforeEach(() => {
     ]
 })
 test(`correct todolist should be added`, () => {
-    let newTodolistTitle = 'New Todolist'
 
-    const endState = todoListsReducer(startState, addTodolistAC(newTodolistTitle))
+    const endState = todoListsReducer(startState, addTodolistAC({
+        id: '1',
+        addedDate: '',
+        order: 0,
+        title: 'New TodoList Title'
+    }))
     console.log(endState)
     expect(endState.length).toBe(3)
-    expect(endState[0].title).toBe(newTodolistTitle)
+    expect(endState[0].title).toBe({
+        id: '1',
+        addedDate: '',
+        order: 0,
+        title: 'New TodoList Title'
+    })
 })
 test(`correct todolist should change its name`, () => {
 

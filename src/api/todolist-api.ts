@@ -13,7 +13,7 @@ export const todoListApi = {
         return instance.get<TodoListType[]>(`/todo-lists`)
     },
     createTodoList(title: string) {
-        return instance.post<ResponseType<{ item: TodoListType }>>(`/todo-lists`, {title})
+        return instance.post<ResponseType<{ item: TodoListType }>, AxiosResponse<ResponseType<{ item: TodoListType }>>,{ title: string }>(`/todo-lists`, {title})
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
