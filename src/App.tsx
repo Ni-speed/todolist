@@ -10,7 +10,7 @@ import {AppRootStateType, useAppDispatch} from "./store/store";
 import {
     addTodoListTC,
     changeFilterAC,
-    changeTodoListTitleAC,
+    changeTodoListTitleAC, changeTodoListTitleTC,
     FilterValueType,
     getTodoListTC,
     removeTodoListTC,
@@ -57,7 +57,7 @@ function App() {
     }, [])
 
     const changeTodoListTitle = useCallback((todoListId: string, title: string) => {
-        dispatch(changeTodoListTitleAC(todoListId, title))
+        dispatch(changeTodoListTitleTC(todoListId, title))
     }, [])
 
     const changeFilter = useCallback((todoListId: string, filter: FilterValueType) => {

@@ -50,7 +50,7 @@ export const setTodoListAC = (todoLists: TodoListType[]) => {
     return {type: 'SET-TODOLISTS', payload: {todoLists}} as const
 }
 export const addTodolistAC = (todoList: TodoListType) => {
-    return {type: 'ADD-TODOLIST',payload: {todoList}} as const
+    return {type: 'ADD-TODOLIST', payload: {todoList}} as const
 }
 export const changeTodoListTitleAC = (todoListId: string, title: string) => {
     return {
@@ -83,4 +83,8 @@ export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatc
 export const addTodoListTC = (title: string) => async (dispatch: Dispatch<ActionType>) => {
     let response = await todoListApi.createTodoList(title)
     dispatch(addTodolistAC(response.data.data.item))
+}
+export const changeTodoListTitleTC = (todoListId: string, title: string) => async (dispatch: Dispatch<ActionType>) => {
+    await todoListApi.updateTodolistTitle(todoListId, title)
+    dispatch(changeTodoListTitleAC(todoListId, title))
 }
