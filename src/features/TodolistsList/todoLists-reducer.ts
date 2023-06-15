@@ -1,6 +1,6 @@
 import {todoListApi, TodoListType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {setAppStatusAC, setAppStatusACType} from "../../app/app-reducer";
+import {setAppErrorAC, setAppErrorACType, setAppStatusAC, setAppStatusACType} from "../../app/app-reducer";
 
 //Types
 type ActionType = AddTodoListType
@@ -9,6 +9,7 @@ type ActionType = AddTodoListType
     | RemoveTodoListType
     | SetTodoListACType
     | setAppStatusACType
+    | setAppErrorACType
 export type AddTodoListType = ReturnType<typeof addTodolistAC>
 export type ChangeTodoListTitleType = ReturnType<typeof changeTodoListTitleAC>
 export type ChangeFilterType = ReturnType<typeof changeFilterAC>
@@ -85,10 +86,25 @@ export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatc
     dispatch(setAppStatusAC('succeeded'))
 }
 export const addTodoListTC = (title: string) => async (dispatch: Dispatch<ActionType>) => {
-    dispatch(setAppStatusAC('loading'))
-    let response = await todoListApi.createTodoList(title)
-    dispatch(addTodolistAC(response.data.data.item))
-    dispatch(setAppStatusAC('succeeded'))
+    try {
+        dispatch(setAppStatusAC('loading'));
+        let response = await todoListApi.createTodoList(title);
+        if (response.data.resultCode === 0) {
+            dispatch(addTodolistAC(response.data.data.item));
+            dispatch(setAppStatusAC('succeeded'));
+        } else {
+            if (response.data.messages.length) {
+                dispatch(setAppErrorAC(response.data.messages[0]));
+            } else {
+                dispatch(setAppErrorAC('Some error occurred'));
+            }
+            dispatch(setAppStatusAC('failed'));
+        }
+    }
+    catch (error) {
+        console.error(error)
+        dispatch(setAppErrorAC('Network error'))
+    }
 }
 export const changeTodoListTitleTC = (todoListId: string, title: string) => async (dispatch: Dispatch<ActionType>) => {
     dispatch(setAppStatusAC('loading'))
