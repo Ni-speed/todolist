@@ -3,6 +3,7 @@ import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType} from "../../api/todolist-api";
 import {AppRootStateType} from "../../app/store";
+import {setAppStatusAC, setAppStatusACType} from "../../app/app-reducer";
 //Types
 type ActionType =
     | removeTaskACType
@@ -12,7 +13,7 @@ type ActionType =
     | RemoveTodoListType
     | SetTodoListACType
     | setTasksACType
-
+    | setAppStatusACType
 
 export type removeTaskACType = ReturnType<typeof removeTaskAC>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
@@ -118,16 +119,22 @@ export const updateTaskAC = (todoListId: string, taskId: string, model: UpdateDo
 
 //Thunks
 export const getTasksTC = (todoListId: string) => async (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     let response = await todoListApi.getTask(todoListId)
     dispatch(setTasksAC(todoListId, response.data.items))
+    dispatch(setAppStatusAC('succeeded'))
 }
 export const removeTaskTC = (todoListId: string, taskId: string) => async (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     await todoListApi.deleteTask(todoListId, taskId)
     dispatch(removeTaskAC(todoListId, taskId))
+    dispatch(setAppStatusAC('succeeded'))
 }
 export const addTaskTC = (todoListId: string, title: string) => async (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     let response = await todoListApi.createTask(todoListId, title)
     dispatch(addTaskAC(response.data.data.item))
+    dispatch(setAppStatusAC('succeeded'))
 }
 export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateDomainTaskModelType) =>
     async (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -142,7 +149,9 @@ export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateDo
                 status: task.status,
                 ...model
             }
+            dispatch(setAppStatusAC('loading'))
             await todoListApi.updateTask(todoListId,taskId,apiModel)
             dispatch(updateTaskAC(todoListId,taskId,model))
+            dispatch(setAppStatusAC('succeeded'))
         }
     }
