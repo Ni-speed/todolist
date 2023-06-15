@@ -1,8 +1,8 @@
 import {AddTodoListType, RemoveTodoListType, SetTodoListACType} from "./todoLists-reducer";
 import {v1} from "uuid";
 import {Dispatch} from "redux";
-import {TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType} from "../api/todolist-api";
-import {AppRootStateType} from "./store";
+import {TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType} from "../../api/todolist-api";
+import {AppRootStateType} from "../../app/store";
 //Types
 type ActionType =
     | removeTaskACType
