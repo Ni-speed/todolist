@@ -9,6 +9,8 @@ import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType} from "../../api/todolist-api";
 import {AppRootStateType} from "../../app/store";
 import {setAppErrorAC, setAppErrorACType, setAppStatusAC, setAppStatusACType} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {AxiosError} from "axios";
 //Types
 type ActionType =
     | removeTaskACType
@@ -127,15 +129,32 @@ export const updateTaskAC = (todoListId: string, taskId: string, model: UpdateDo
 //Thunks
 export const getTasksTC = (todoListId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    let response = await todoListApi.getTask(todoListId)
-    dispatch(setTasksAC(todoListId, response.data.items))
-    dispatch(setAppStatusAC('succeeded'))
+    try {
+        let response = await todoListApi.getTask(todoListId)
+        dispatch(setTasksAC(todoListId, response.data.items))
+        dispatch(setAppStatusAC('succeeded'))
+    } catch(error: any) {
+        console.error(error)
+    }
+
 }
 export const removeTaskTC = (todoListId: string, taskId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    await todoListApi.deleteTask(todoListId, taskId)
-    dispatch(removeTaskAC(todoListId, taskId))
-    dispatch(setAppStatusAC('succeeded'))
+    try {
+        let response = await todoListApi.deleteTask(todoListId, taskId)
+        if (response.data.resultCode === 0) {
+            debugger
+            dispatch(removeTaskAC(todoListId, taskId))
+            dispatch(setAppStatusAC('succeeded'))
+        } else {
+
+            handleServerAppError(response.data, dispatch)
+        }
+    } catch (error: any) {
+        console.error(error)
+        handleServerNetworkError(error, dispatch)
+    }
+
 }
 export const addTaskTC = (todoListId: string, title: string) => async (dispatch: Dispatch) => {
     try {
@@ -147,18 +166,12 @@ export const addTaskTC = (todoListId: string, title: string) => async (dispatch:
             dispatch(setAppStatusAC('succeeded'))
             dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
         } else {
-            if (response.data.messages.length) {
-                dispatch(setAppErrorAC(response.data.messages[0]))
-                dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
-            } else {
-                dispatch(setAppErrorAC('Some error occurred'))
-            }
-            dispatch(setAppStatusAC('failed'))
+            handleServerAppError(response.data,dispatch)
         }
-    } catch (error) {
+        dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
+    } catch (error: any) {
         console.error(error)
-        dispatch(setAppStatusAC('failed'))
-        dispatch(setAppErrorAC('Network error'))
+        handleServerNetworkError(error, dispatch)
     }
 }
 export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateDomainTaskModelType) =>
@@ -176,14 +189,18 @@ export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateDo
                     ...model
                 }
                 dispatch(setAppStatusAC('loading'))
-                await todoListApi.updateTask(todoListId, taskId, apiModel)
-                dispatch(updateTaskAC(todoListId, taskId, model))
-                dispatch(setAppStatusAC('succeeded'))
+                let response = await todoListApi.updateTask(todoListId, taskId, apiModel)
+                if (response.data.resultCode === 0) {
+                    dispatch(updateTaskAC(todoListId, taskId, model))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(response.data, dispatch)
+                }
+
             }
-            catch (error) {
+            catch (error: any) {
                 console.error(error)
-                dispatch(setAppStatusAC('failed'))
-                dispatch(setAppErrorAC('Network error'))
+                handleServerNetworkError(error,dispatch)
             }
 
         }
