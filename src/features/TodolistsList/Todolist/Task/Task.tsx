@@ -4,9 +4,11 @@ import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
+import {RequestStatusType} from "../../../../app/app-reducer";
 
 
 type TaskPropsType = {
+    entityStatus: RequestStatusType
     task: TaskType
     todoListId: string
     changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void
@@ -35,7 +37,7 @@ export const Task = (props: TaskPropsType) => {
                 value={props.task.title}
                 onChange={changeTaskTitleHandler}
             />
-            <IconButton aria-label="delete" onClick={onClickHandler}>
+            <IconButton aria-label="delete" onClick={onClickHandler} disabled={props.entityStatus === 'loading'}>
                 <DeleteIcon/>
             </IconButton>
         </div>

@@ -70,6 +70,7 @@ export const Todolist: React.FC<TodolistType> = React.memo((props) => {
                 {
                     taskForTodolist.map(t => <Task key={t.id}
                                                    task={t}
+                                                   entityStatus={props.entityStatus}
                                                    todoListId={props.todoListId}
                                                    changeTaskStatus={props.changeTaskStatus}
                                                    changeTaskTitle={props.changeTaskTitle}

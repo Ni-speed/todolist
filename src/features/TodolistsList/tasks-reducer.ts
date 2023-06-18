@@ -140,19 +140,20 @@ export const getTasksTC = (todoListId: string) => async (dispatch: Dispatch) => 
 }
 export const removeTaskTC = (todoListId: string, taskId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
     try {
         let response = await todoListApi.deleteTask(todoListId, taskId)
         if (response.data.resultCode === 0) {
-            debugger
             dispatch(removeTaskAC(todoListId, taskId))
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
         } else {
-
             handleServerAppError(response.data, dispatch)
         }
     } catch (error: any) {
         console.error(error)
-        handleServerNetworkError(error, dispatch)
+        await handleServerNetworkError(error, dispatch)
+        dispatch(changeTodolistEntityStatusAC(todoListId,'failed'))
     }
 
 }

@@ -97,8 +97,8 @@ export const changeTodolistEntityStatusAC = (todoListId: string, status: Request
 }
 // Thunks
 export const getTodoListTC = () => async (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
     try {
+        dispatch(setAppStatusAC('loading'))
         let response = await todoListApi.getTodoLists()
         dispatch(setTodoListAC(response.data))
         dispatch(setAppStatusAC('succeeded'))
@@ -110,8 +110,8 @@ export const getTodoListTC = () => async (dispatch: Dispatch) => {
 }
 export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
     try {
-        dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
         let response = await todoListApi.deleteTodolist(todoListId)
         if (response.data.resultCode === 0) {
             dispatch(removeTodoListAC(todoListId))
@@ -119,11 +119,11 @@ export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatc
         } else {
             handleServerAppError(response.data,dispatch)
         }
-        dispatch(changeTodolistEntityStatusAC(todoListId,'failed'))
+        dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
     } catch (error: any) {
         debugger
         console.error(error)
-        handleServerNetworkError(error,dispatch)
+        await handleServerNetworkError(error,dispatch)
         dispatch(changeTodolistEntityStatusAC(todoListId,'failed'))
     }
 
