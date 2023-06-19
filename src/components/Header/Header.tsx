@@ -7,11 +7,18 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearBuffer} from "../LinearProgress/LinerProgress";
-import {useAppSelector} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 import {RequestStatusType} from "../../app/app-reducer";
+import {logoutTC} from "../../features/Login/auth-reducer";
+import {useCallback} from "react";
 
 export const  Header = ()=> {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const dispatch = useAppDispatch()
+    const logoutHandler = useCallback(() => {
+        dispatch(logoutTC())
+    }, [])
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -28,7 +35,7 @@ export const  Header = ()=> {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearBuffer/>}
             </AppBar>

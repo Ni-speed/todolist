@@ -27,7 +27,6 @@ export const TodoListsList = () => {
 
         console.log(2)
         if (isLoggedIn) {
-
             dispatch(getTodoListTC());
         }
     }, [])
