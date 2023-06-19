@@ -12,6 +12,9 @@ export const authApi = {
     login(data: LoginType) {
         return instance.post<ResponseType<{userId: number}>,AxiosResponse<ResponseType<{ userId: number  }>>, LoginType>(`/auth/login`, data)
     },
+    me () {
+        return instance.get<ResponseType<{id: number; email: string; login: string}>>(`/auth/me`)
+    }
 }
 
 export const todoListApi = {

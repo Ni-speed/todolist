@@ -24,7 +24,10 @@ export const TodoListsList = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (!isLoggedIn) {
+
+        console.log(2)
+        if (isLoggedIn) {
+
             dispatch(getTodoListTC());
         }
     }, [])
@@ -62,6 +65,7 @@ export const TodoListsList = () => {
         dispatch(changeFilterAC(todoListId, filter))
     }, [])
     if (!isLoggedIn) {
+
         return <Navigate to={'/login'}/>
     }
     return (

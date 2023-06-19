@@ -46,6 +46,7 @@ export const Login = () => {
         },
     })
     if (isLoggedIn) {
+
         return <Navigate to={'/'}/>
     }
 

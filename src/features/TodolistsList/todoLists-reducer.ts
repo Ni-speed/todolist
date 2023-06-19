@@ -97,6 +97,7 @@ export const changeTodolistEntityStatusAC = (todoListId: string, status: Request
 }
 // Thunks
 export const getTodoListTC = () => async (dispatch: Dispatch) => {
+
     try {
         dispatch(setAppStatusAC('loading'))
         let response = await todoListApi.getTodoLists()
@@ -121,7 +122,7 @@ export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatc
         }
         dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
     } catch (error: any) {
-        debugger
+
         console.error(error)
         await handleServerNetworkError(error,dispatch)
         dispatch(changeTodolistEntityStatusAC(todoListId,'failed'))
