@@ -19,12 +19,14 @@ type ActionType = AddTodoListType
     | setAppStatusACType
     | setAppErrorACType
     | changeTodolistEntityStatusACType
+    | clearTodosDataACType
 export type AddTodoListType = ReturnType<typeof addTodolistAC>
 export type ChangeTodoListTitleType = ReturnType<typeof changeTodoListTitleAC>
 export type ChangeFilterType = ReturnType<typeof changeFilterAC>
 export type RemoveTodoListType = ReturnType<typeof removeTodoListAC>
 export type SetTodoListACType = ReturnType<typeof setTodoListAC>
 export type changeTodolistEntityStatusACType = ReturnType<typeof changeTodolistEntityStatusAC>
+export type clearTodosDataACType = ReturnType<typeof clearTodosDataAC>
 
 export type FilterValueType = "all" | "active" | "completed";
 
@@ -61,8 +63,11 @@ export const todoListsReducer = (state: TodolistDomainType[] = initialState, act
         }
         case 'CHANGE-TODO-ENTITY-STATUS': {
             return state.map(tl => tl.id === action.payload.todoListId
-            ? {...tl, entityStatus: action.payload.status}
-            : tl)
+                ? {...tl, entityStatus: action.payload.status}
+                : tl)
+        }
+        case 'CLEAR-DATA': {
+            return []
         }
     }
     return state
@@ -93,8 +98,9 @@ export const removeTodoListAC = (todoListId: string) => {
     } as const
 }
 export const changeTodolistEntityStatusAC = (todoListId: string, status: RequestStatusType) => {
-    return {type: 'CHANGE-TODO-ENTITY-STATUS', payload: {todoListId, status} }as const
+    return {type: 'CHANGE-TODO-ENTITY-STATUS', payload: {todoListId, status}} as const
 }
+export const clearTodosDataAC = () => {return {type: 'CLEAR-DATA'} as const }
 // Thunks
 export const getTodoListTC = () => async (dispatch: Dispatch) => {
 
@@ -105,27 +111,27 @@ export const getTodoListTC = () => async (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('succeeded'))
     } catch (error: any) {
         console.error(error)
-        handleServerNetworkError(error,dispatch)
+        handleServerNetworkError(error, dispatch)
     }
 
 }
 export const removeTodoListTC = (todoListId: string) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
+    dispatch(changeTodolistEntityStatusAC(todoListId, 'loading'))
     try {
         let response = await todoListApi.deleteTodolist(todoListId)
         if (response.data.resultCode === 0) {
             dispatch(removeTodoListAC(todoListId))
             dispatch(setAppStatusAC('succeeded'))
         } else {
-            handleServerAppError(response.data,dispatch)
+            handleServerAppError(response.data, dispatch)
         }
-        dispatch(changeTodolistEntityStatusAC(todoListId,'succeeded'))
+        dispatch(changeTodolistEntityStatusAC(todoListId, 'succeeded'))
     } catch (error: any) {
 
         console.error(error)
-        await handleServerNetworkError(error,dispatch)
-        dispatch(changeTodolistEntityStatusAC(todoListId,'failed'))
+        await handleServerNetworkError(error, dispatch)
+        dispatch(changeTodolistEntityStatusAC(todoListId, 'failed'))
     }
 
 }
@@ -137,11 +143,11 @@ export const addTodoListTC = (title: string) => async (dispatch: Dispatch<Action
             dispatch(addTodolistAC(response.data.data.item));
             dispatch(setAppStatusAC('succeeded'));
         } else {
-            handleServerAppError(response.data,dispatch)
+            handleServerAppError(response.data, dispatch)
         }
     } catch (error: any) {
         console.error(error)
-        handleServerNetworkError(error,dispatch)
+        handleServerNetworkError(error, dispatch)
     }
 }
 export const changeTodoListTitleTC = (todoListId: string, title: string) => async (dispatch: Dispatch<ActionType>) => {
@@ -152,11 +158,11 @@ export const changeTodoListTitleTC = (todoListId: string, title: string) => asyn
             dispatch(changeTodoListTitleAC(todoListId, title))
             dispatch(setAppStatusAC('succeeded'))
         } else {
-            handleServerAppError(response.data,dispatch)
+            handleServerAppError(response.data, dispatch)
         }
     } catch (error: any) {
         console.error(error)
-        handleServerNetworkError(error,dispatch)
+        handleServerNetworkError(error, dispatch)
     }
 
 }
