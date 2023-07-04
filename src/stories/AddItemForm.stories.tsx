@@ -1,23 +1,22 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-
-import {AddItemForm} from "../components/AddItemForn/AddItemForm";
-import {action} from "@storybook/addon-actions";
+import { AddItemForm } from "../components/AddItemForn/AddItemForm";
+import { action } from "@storybook/addon-actions";
 import TextField from "@mui/material/TextField/TextField";
-import {IconButton} from "@mui/material";
-import {AddBox} from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { AddBox } from "@mui/icons-material";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'TODOLISTS/AddItemForm',
-    component: AddItemForm,
-    // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-    argTypes: {
-        addItem: {
-            description: 'Button clicked inside form'
-        }
+  title: "TODOLISTS/AddItemForm",
+  component: AddItemForm,
+  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  argTypes: {
+    addItem: {
+      description: "Button clicked inside form",
     },
+  },
 } as ComponentMeta<typeof AddItemForm>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
@@ -26,50 +25,51 @@ const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...
 export const AddItemFormStory = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 AddItemFormStory.args = {
-    addCallback: action('Button clicked inside form')
-}
+  addCallback: action("Button clicked inside form"),
+};
 
 const Template1: ComponentStory<typeof AddItemForm> = (args) => {
+  let [title, setTitle] = useState("");
+  let [error, setError] = useState<string | null>("Title is required");
 
-    let [title, setTitle] = useState("")
-    let [error, setError] = useState<string | null>('Title is required')
-
-    const addTask = () => {
-        if (title.trim() !== "") {
-            args.addCallback(title);
-            setTitle("");
-        } else {
-            setError("Title is required");
-        }
+  const addTask = () => {
+    if (title.trim() !== "") {
+      args.addCallback(title);
+      setTitle("");
+    } else {
+      setError("Title is required");
     }
+  };
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+  };
+
+  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (error !== null) {
+      setError(null);
     }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error !== null) {
-            setError(null);
-        }
-        if (e.charCode === 13) {
-            addTask();
-        }
+    if (e.charCode === 13) {
+      addTask();
     }
+  };
 
-    return <div>
-        <TextField variant="outlined"
-                   error={!!error}
-                   value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   label="Title"
-                   helperText={error}
-        />
-        <IconButton color="primary" onClick={addTask}>
-            <AddBox />
-        </IconButton>
+  return (
+    <div>
+      <TextField
+        variant="outlined"
+        error={!!error}
+        value={title}
+        onChange={onChangeHandler}
+        onKeyPress={onKeyPressHandler}
+        label="Title"
+        helperText={error}
+      />
+      <IconButton color="primary" onClick={addTask}>
+        <AddBox />
+      </IconButton>
     </div>
-} ;
+  );
+};
 
 export const AddItemFormErrorStory = Template1.bind({});
-
