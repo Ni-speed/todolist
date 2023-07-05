@@ -1,28 +1,10 @@
-import {
-  AddTodoListType,
-  changeTodolistEntityStatusAC,
-  changeTodolistEntityStatusACType,
-  clearTodosDataACType,
-  RemoveTodoListType,
-  SetTodoListACType,
-} from "./todoLists-reducer";
-import { Dispatch } from "redux";
 import { TaskPriorities, TaskStatuses, TaskType, todoListApi, UpdateTaskModelType } from "api/todolist-api";
-import { AppRootStateType, AppThunk } from "app/store";
+import { AppThunk } from "app/store";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { createSlice } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 //Types
-type ActionType =
-  | removeTaskACType
-  | addTaskACType
-  | updateTaskACType
-  | AddTodoListType
-  | RemoveTodoListType
-  | SetTodoListACType
-  | setTasksACType
-  | changeTodolistEntityStatusACType
-  | clearTodosDataACType;
+type ActionType = removeTaskACType | addTaskACType | updateTaskACType | setTasksACType;
 
 export type removeTaskACType = ReturnType<typeof removeTaskAC>;
 export type addTaskACType = ReturnType<typeof addTaskAC>;
@@ -127,7 +109,7 @@ export const updateTaskAC = (todoListId: string, taskId: string, model: UpdateDo
   } as const;
 };
 
-//Thunks
+//Thunkslll
 export const getTasksTC =
   (todoListId: string): AppThunk =>
   async (dispatch) => {

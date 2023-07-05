@@ -4,12 +4,12 @@ import { AddItemForm } from "components/AddItemForn/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
 import {
   addTodoListTC,
-  changeFilterAC,
   changeTodoListTitleTC,
   FilterValueType,
   getTodoListTC,
   removeTodoListTC,
   TodolistDomainType,
+  todoListsActions,
 } from "./todoLists-reducer";
 import { useAppDispatch, useAppSelector } from "app/store";
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "./tasks-reducer";
@@ -60,7 +60,7 @@ export const TodoListsList = () => {
   }, []);
 
   const changeFilter = useCallback((todoListId: string, filter: FilterValueType) => {
-    dispatch(changeFilterAC(todoListId, filter));
+    dispatch(todoListsActions.changeFilter({ todoListId: todoListId, filter: filter }));
   }, []);
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />;

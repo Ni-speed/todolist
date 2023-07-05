@@ -1,12 +1,5 @@
 import { v1 } from "uuid";
-import {
-  addTodolistAC,
-  changeFilterAC,
-  changeTodoListTitleAC,
-  FilterValueType,
-  TodolistDomainType,
-  todoListsReducer,
-} from "../todoLists-reducer";
+import { FilterValueType, TodolistDomainType, todoListsActions, todoListsReducer } from "../todoLists-reducer";
 
 let todolistID1: string;
 let todolistID2: string;
@@ -26,14 +19,17 @@ test(`correct todolist should be added`, () => {
     order: 0,
     title: "New TodoList Title",
   };
-  const endState = todoListsReducer(startState, addTodolistAC(NewTODO));
+  const endState = todoListsReducer(startState, todoListsActions.addTodolist({ todoList: NewTODO }));
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(NewTODO.title);
 });
 test(`correct todolist should change its name`, () => {
   let newTodolistTitle = "New Title";
 
-  const endState = todoListsReducer(startState, changeTodoListTitleAC(todolistID1, newTodolistTitle));
+  const endState = todoListsReducer(
+    startState,
+    todoListsActions.changeTodoListTitle({ todoListId: todolistID1, title: newTodolistTitle })
+  );
 
   expect(endState.length).toBe(2);
   expect(endState[0].title).toBe(newTodolistTitle);
@@ -42,7 +38,10 @@ test(`correct todolist should change its name`, () => {
 test(`correct filter of todolist should be changed`, () => {
   let newFilter: FilterValueType = "completed";
 
-  const endState = todoListsReducer(startState, changeFilterAC(todolistID1, newFilter));
+  const endState = todoListsReducer(
+    startState,
+    todoListsActions.changeFilter({ todoListId: todolistID1, filter: newFilter })
+  );
   expect(endState.length).toBe(2);
   expect(endState[0].filter).toBe(newFilter);
   expect(endState[1].filter).toBe("all");
