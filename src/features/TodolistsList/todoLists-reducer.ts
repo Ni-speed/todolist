@@ -27,11 +27,11 @@ const slice = createSlice({
       state.unshift(newTodoList);
     },
     changeTodoListTitle: (state, action: PayloadAction<{ todoListId: string; title: string }>) => {
-      const index = state.findIndex((todo) => todo.id === action.payload.title);
+      const index = state.findIndex((todo) => todo.id === action.payload.todoListId);
       if (index !== -1) state[index].title = action.payload.title;
     },
     changeFilter: (state, action: PayloadAction<{ todoListId: string; filter: FilterValueType }>) => {
-      const index = state.findIndex((todo) => todo.id === action.payload.filter);
+      const index = state.findIndex((todo) => todo.id === action.payload.todoListId);
       if (index !== -1) state[index].filter = action.payload.filter;
     },
     changeTodolistEntityStatus: (state, action: PayloadAction<{ todoListId: string; status: RequestStatusType }>) => {
