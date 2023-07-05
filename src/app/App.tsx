@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Header } from "../components/Header/Header";
+import { Header } from "components/Header/Header";
 import { CircularProgress, Container } from "@mui/material";
-import { TodoListsList } from "../features/TodolistsList/TodoListsList";
-import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar";
+import { TodoListsList } from "features/TodolistsList/TodoListsList";
+import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login } from "../features/Login/Login";
+import { Login } from "features/Login/Login";
 import { useAppDispatch, useAppSelector } from "./store";
-import { meTC } from "../features/Login/auth-reducer";
+import { meTC } from "app/app-reducer";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -64,20 +64,20 @@ export const logoutTC = (): AppThunk => async (dispatch) => {
     handleServerNetworkError(e, dispatch);
   }
 };
-export const meTC = (): AppThunk => async (dispatch) => {
-  dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    let response = await authApi.me();
-    if (response.data.resultCode === 0) {
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-      dispatch(appActions.setAppInitialize({ isInitialized: true }));
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
-    } else {
-      handleServerAppError(response.data, dispatch);
-      dispatch(appActions.setAppInitialize({ isInitialized: true }));
-    }
-  } catch (e) {
-    const error = e as { message: string };
-    handleServerNetworkError(error, dispatch);
-  }
-};
+// export const TasksStateType = (): AppThunk => async (dispatch) => {
+//   dispatch(appActions.setAppStatus({ status: "loading" }));
+//   try {
+//     let response = await authApi.me();
+//     if (response.data.resultCode === 0) {
+//       dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+//       dispatch(appActions.setAppInitialize({ isInitialized: true }));
+//       dispatch(appActions.setAppStatus({ status: "succeeded" }));
+//     } else {
+//       handleServerAppError(response.data, dispatch);
+//       dispatch(appActions.setAppInitialize({ isInitialized: true }));
+//     }
+//   } catch (e) {
+//     const error = e as { message: string };
+//     handleServerNetworkError(error, dispatch);
+//   }
+// };

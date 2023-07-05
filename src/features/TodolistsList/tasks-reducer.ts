@@ -59,10 +59,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       };
     }
     case "SET-TODOLISTS": {
-      action.payload.todoLists.map((tl) => ({
-        ...(state[tl.id] = []),
-      }));
-      return state;
+      const copyState = { ...state };
+      action.payload.todoLists.forEach((tl) => {
+        copyState[tl.id] = [];
+      });
+      return copyState;
     }
     case "REMOVE-TASK": {
       return {
