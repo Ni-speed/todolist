@@ -51,7 +51,6 @@ export const loginTC =
     }
   };
 export const logoutTC = (): AppThunk => async (dispatch) => {
-  debugger;
   dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
     let response = await authApi.logout();

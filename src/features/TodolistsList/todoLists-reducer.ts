@@ -42,13 +42,9 @@ const slice = createSlice({
     setTodoList: (state, action: PayloadAction<{ todoLists: TodoListType[] }>) => {
       return action.payload.todoLists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
-    // clearTodosData: () => {
-    //   return [...initialState];
-    // },
   },
   extraReducers: (builder) => {
     builder.addCase(clearTaskTodoList, () => {
-      debugger;
       return initialState;
     });
   },

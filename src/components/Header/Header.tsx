@@ -7,14 +7,15 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { LinearBuffer } from "../LinearProgress/LinerProgress";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { RequestStatusType } from "../../app/app-reducer";
-import { logoutTC } from "../../features/Login/auth-reducer";
+import { useAppDispatch, useAppSelector } from "app/store";
+import { RequestStatusType } from "app/app-reducer";
+import { logoutTC } from "features/Login/auth-reducer";
 import { useCallback } from "react";
+import { selectorIsLoggedIn, selectorStatus } from "components/Header/header-selectors";
 
 export const Header = () => {
-  const status = useAppSelector<RequestStatusType>((state) => state.app.status);
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
+  const status = useAppSelector<RequestStatusType>(selectorStatus);
+  const isLoggedIn = useAppSelector<boolean>(selectorIsLoggedIn);
   const dispatch = useAppDispatch();
   const logoutHandler = useCallback(() => {
     dispatch(logoutTC());

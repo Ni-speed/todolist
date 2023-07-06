@@ -8,11 +8,14 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "features/Login/Login";
 import { useAppDispatch, useAppSelector } from "./store";
 import { meTC } from "app/app-reducer";
+import { _selectorIsInitialized, selectorIsInitialized } from "app/app-selectors";
 
 function App() {
   const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized);
-
+  // const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized);
+  const isInitialized = useAppSelector<boolean>(selectorIsInitialized);
+  console.log("isInitialized: ", isInitialized);
+  console.log("Render App");
   useEffect(() => {
     dispatch(meTC());
   }, []);

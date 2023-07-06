@@ -15,16 +15,17 @@ import { useAppDispatch, useAppSelector } from "app/store";
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "./tasks-reducer";
 import { TaskStatuses } from "api/todolist-api";
 import { Navigate } from "react-router-dom";
+import { selectorTasks, selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
+import { selectorIsInitialized } from "app/app-selectors";
 
 export const TodoListsList = () => {
-  const todoLists = useAppSelector<TodolistDomainType[]>((state) => state.todoLists);
-  const tasks = useAppSelector<TasksStateType>((state) => state.tasks);
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const todoLists = useAppSelector<TodolistDomainType[]>(selectorTodoLists);
+  const tasks = useAppSelector<TasksStateType>(selectorTasks);
+  const isLoggedIn = useAppSelector(selectorIsInitialized);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(2);
     if (isLoggedIn) {
       dispatch(getTodoListTC());
     }
