@@ -3,7 +3,7 @@ import { authApi, LoginType } from "api/todolist-api";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "app/store";
 import { appActions } from "app/app-reducer";
-import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
+import { clearTaskTodoList } from "common/actions/common-actions";
 
 // Types
 // type ActionsType =
@@ -12,12 +12,15 @@ import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
 //   | setAppErrorACType
 //   | setAppInitializeACType
 //   | clearTodosDataACType;
-
+type authInitialStateType = {
+  isLoggedIn: boolean;
+};
+const initialState: authInitialStateType = {
+  isLoggedIn: false,
+};
 const slice = createSlice({
   name: "auth",
-  initialState: {
-    isLoggedIn: false,
-  },
+  initialState,
   reducers: {
     setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
       state.isLoggedIn = action.payload.isLoggedIn;
@@ -27,7 +30,6 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-
 // Thunks
 export const loginTC =
   (data: LoginType): AppThunk =>
@@ -49,14 +51,14 @@ export const loginTC =
     }
   };
 export const logoutTC = (): AppThunk => async (dispatch) => {
+  debugger;
   dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
     let response = await authApi.logout();
     if (response.data.resultCode === 0) {
       dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      dispatch(todoListsActions.clearTodosData({}));
-      // dispatch(clearTodosDataAC());
+      dispatch(clearTaskTodoList());
     } else {
       handleServerAppError(response.data, dispatch);
     }
@@ -65,20 +67,3 @@ export const logoutTC = (): AppThunk => async (dispatch) => {
     handleServerNetworkError(e, dispatch);
   }
 };
-// export const TasksStateType = (): AppThunk => async (dispatch) => {
-//   dispatch(appActions.setAppStatus({ status: "loading" }));
-//   try {
-//     let response = await authApi.me();
-//     if (response.data.resultCode === 0) {
-//       dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-//       dispatch(appActions.setAppInitialize({ isInitialized: true }));
-//       dispatch(appActions.setAppStatus({ status: "succeeded" }));
-//     } else {
-//       handleServerAppError(response.data, dispatch);
-//       dispatch(appActions.setAppInitialize({ isInitialized: true }));
-//     }
-//   } catch (e) {
-//     const error = e as { message: string };
-//     handleServerNetworkError(error, dispatch);
-//   }
-// };

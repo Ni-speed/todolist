@@ -3,6 +3,7 @@ import { appActions, RequestStatusType } from "app/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { clearTaskTodoList } from "common/actions/common-actions";
 
 export type FilterValueType = "all" | "active" | "completed";
 
@@ -10,10 +11,10 @@ export type TodolistDomainType = TodoListType & {
   filter: FilterValueType;
   entityStatus: RequestStatusType;
 };
-
+const initialState: TodolistDomainType[] = [];
 const slice = createSlice({
   name: "todoList",
-  initialState: [] as TodolistDomainType[],
+  initialState,
   reducers: {
     removeTodoList: (state, action: PayloadAction<{ todoListId: string }>) => {
       // recommended 2307 2263 1732
@@ -41,10 +42,15 @@ const slice = createSlice({
     setTodoList: (state, action: PayloadAction<{ todoLists: TodoListType[] }>) => {
       return action.payload.todoLists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
-    clearTodosData: (state, action) => {
+    // clearTodosData: () => {
+    //   return [...initialState];
+    // },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(clearTaskTodoList, () => {
       debugger;
-      return [];
-    },
+      return initialState;
+    });
   },
 });
 
