@@ -35,20 +35,20 @@ export const Todolist: React.FC<TodolistType> = React.memo((props) => {
     (title: string) => {
       props.addTask(props.todoListId, title);
     },
-    [props.addTask, props.todoListId]
+    [props.addTask, props.todoListId],
   );
 
   const onAllClickHandler = useCallback(
     () => props.changeFilter(props.todoListId, "all"),
-    [props.changeFilter, props.todoListId]
+    [props.changeFilter, props.todoListId],
   );
   const onActiveClickHandler = useCallback(
     () => props.changeFilter(props.todoListId, "active"),
-    [props.changeFilter, props.todoListId]
+    [props.changeFilter, props.todoListId],
   );
   const onCompletedClickHandler = useCallback(
     () => props.changeFilter(props.todoListId, "completed"),
-    [props.changeFilter, props.todoListId]
+    [props.changeFilter, props.todoListId],
   );
 
   const removeTodoListHandler = () => {

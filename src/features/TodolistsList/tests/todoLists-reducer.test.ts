@@ -28,7 +28,7 @@ test(`correct todolist should change its name`, () => {
 
   const endState = todoListsReducer(
     startState,
-    todoListsActions.changeTodoListTitle({ todoListId: todolistID1, title: newTodolistTitle })
+    todoListsActions.changeTodoListTitle({ todoListId: todolistID1, title: newTodolistTitle }),
   );
 
   expect(endState.length).toBe(2);
@@ -40,7 +40,7 @@ test(`correct filter of todolist should be changed`, () => {
 
   const endState = todoListsReducer(
     startState,
-    todoListsActions.changeFilter({ todoListId: todolistID1, filter: newFilter })
+    todoListsActions.changeFilter({ todoListId: todolistID1, filter: newFilter }),
   );
   expect(endState.length).toBe(2);
   expect(endState[0].filter).toBe(newFilter);

@@ -6,5 +6,5 @@ export const selectorIsInitialized = createSelector(
   (state: AppRootStateType) => {
     return state.app.isInitialized;
   },
-  (isInitialized) => isInitialized
+  (isInitialized) => isInitialized,
 );

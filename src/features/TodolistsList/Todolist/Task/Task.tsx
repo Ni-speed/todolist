@@ -21,16 +21,16 @@ export const Task = (props: TaskPropsType) => {
       props.changeTaskStatus(
         props.todoListId,
         props.task.id,
-        newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New
+        newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
       );
     },
-    [props.changeTaskStatus, props.todoListId, props.task.id]
+    [props.changeTaskStatus, props.todoListId, props.task.id],
   );
   const changeTaskTitleHandler = useCallback(
     (newTitle: string) => {
       props.changeTaskTitle(props.todoListId, props.task.id, newTitle);
     },
-    [props.changeTaskTitle, props.task.id, props.todoListId]
+    [props.changeTaskTitle, props.task.id, props.todoListId],
   );
   const onClickHandler = useCallback(() => {
     props.removeTask(props.todoListId, props.task.id);
