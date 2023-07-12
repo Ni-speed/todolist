@@ -1,5 +1,4 @@
-import { tasksActions, TasksStateType } from "../tasks-reducer";
-import { tasksReducer } from "../tasks-reducer";
+import { tasksActions, tasksReducer, TasksStateType, tasksThunks } from "../tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "api/todolist-api";
 import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
 
@@ -150,4 +149,23 @@ test(`property with todolistId should be deleted`, () => {
 
   expect(keys.length).toBe(1);
   expect(endState["todolistID1"]).not.toBeDefined();
+});
+
+test(`tasks should be added for todolist`, () => {
+  const action = tasksThunks.getTasks.fulfilled(
+    { tasks: startState["todolistID1"], todoListId: "todolistID1" },
+    "requestId",
+    "todolistID1",
+  );
+
+  const endState = tasksReducer(
+    {
+      ...startState,
+      todolistID1: [],
+      todolistID2: [],
+    },
+    action,
+  );
+  expect(endState["todolistID1"].length).toBe(3);
+  expect(endState["todolistID2"].length).toBe(0);
 });

@@ -7,9 +7,9 @@ import Button from "@mui/material/Button";
 import { FilterValueType } from "../todoLists-reducer";
 import { Task } from "./Task/Task";
 import { TaskStatuses, TaskType } from "api/todolist-api";
-import { getTasksTC } from "../tasks-reducer";
 import { useAppDispatch } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
+import { tasksThunks } from "features/TodolistsList/tasks-reducer";
 
 type TodolistType = {
   title: string;
@@ -29,7 +29,7 @@ export const Todolist: React.FC<TodolistType> = React.memo((props) => {
   console.log("Todolist called");
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getTasksTC(props.todoListId));
+    dispatch(tasksThunks.getTasks(props.todoListId));
   }, []);
   const addTask = useCallback(
     (title: string) => {
