@@ -8,13 +8,14 @@ import {
   UpdateTaskModelType,
 } from "api/todolist-api";
 import { AppThunk } from "app/store";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
 import { clearTaskTodoList } from "common/actions/common-actions";
 
 import { createAppAsyncThunk } from "utils/create-app=async-thunk";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
+import { handleServerAppError } from "utils/handle-server-app-error";
 //Types
 export type TasksStateType = {
   [key: string]: TaskType[];
@@ -87,6 +88,11 @@ const getTasks = createAppAsyncThunk<{ tasks: TaskType[]; todoListId: string }, 
     }
   },
 );
+enum ResultCode {
+  success,
+  error,
+  captcha = 10,
+}
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(`tasks/addTask`, async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
@@ -94,7 +100,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(`tasks/a
     dispatch(appActions.setAppStatus({ status: "loading" }));
     dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "loading" }));
     let response = await todoListApi.createTask(arg);
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCode.success) {
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "succeeded" }));
       return { task: response.data.data.item };
@@ -133,7 +139,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
       };
 
       let response = await todoListApi.updateTask(arg.todoListId, arg.taskId, apiModel);
-      if (response.data.resultCode === 0) {
+      if (response.data.resultCode === ResultCode.success) {
         dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return arg;
       } else {
@@ -154,7 +160,7 @@ export const removeTaskTC =
     dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: todoListId, status: "loading" }));
     try {
       let response = await todoListApi.deleteTask(todoListId, taskId);
-      if (response.data.resultCode === 0) {
+      if (response.data.resultCode === ResultCode.success) {
         dispatch(tasksActions.removeTask({ todoListId, taskId }));
 
         dispatch(appActions.setAppStatus({ status: "succeeded" }));

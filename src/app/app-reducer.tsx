@@ -1,8 +1,9 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "app/store";
 import { authApi } from "api/todolist-api";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { authActions } from "features/Login/auth-reducer";
+import { handleServerAppError } from "utils/handle-server-app-error";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 
