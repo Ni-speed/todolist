@@ -1,18 +1,10 @@
-import { authApi, LoginType } from "api/todolist-api";
+import { authApi, LoginType } from "common/api/todolist-api";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "app/store";
 import { appActions } from "app/app-reducer";
 import { clearTaskTodoList } from "common/actions/common-actions";
-import { handleServerNetworkError } from "utils/handle-server-network-error";
-import { handleServerAppError } from "utils/handle-server-app-error";
+import { handleServerAppError, handleServerNetworkError } from "common/utils";
 
-// Types
-// type ActionsType =
-//   | setIsLoggedInACType
-//   | setAppStatusACType
-//   | setAppErrorACType
-//   | setAppInitializeACType
-//   | clearTodosDataACType;
 type authInitialStateType = {
   isLoggedIn: boolean;
 };

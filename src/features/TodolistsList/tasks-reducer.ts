@@ -6,16 +6,16 @@ import {
   todoListApi,
   UpdateTaskArgType,
   UpdateTaskModelType,
-} from "api/todolist-api";
+} from "common/api/todolist-api";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
 import { clearTaskTodoList } from "common/actions/common-actions";
 
-import { createAppAsyncThunk } from "utils/create-app=async-thunk";
-import { handleServerNetworkError } from "utils/handle-server-network-error";
-import { handleServerAppError } from "utils/handle-server-app-error";
+import { createAppAsyncThunk } from "common/utils/create-app=async-thunk";
+import { handleServerAppError, handleServerNetworkError } from "common/utils";
+
 //Types
 export type TasksStateType = {
   [key: string]: TaskType[];

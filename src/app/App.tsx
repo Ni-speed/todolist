@@ -6,9 +6,11 @@ import { TodoListsList } from "features/TodolistsList/TodoListsList";
 import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "features/Login/Login";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useAppSelector } from "./store";
 import { meTC } from "app/app-reducer";
-import { _selectorIsInitialized, selectorIsInitialized } from "app/app-selectors";
+import { selectorIsInitialized } from "app/app-selectors";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+// import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 function App() {
   const dispatch = useAppDispatch();

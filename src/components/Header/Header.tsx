@@ -7,11 +7,12 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { LinearBuffer } from "../LinearProgress/LinerProgress";
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
 import { logoutTC } from "features/Login/auth-reducer";
 import { useCallback } from "react";
 import { selectorIsLoggedIn, selectorStatus } from "components/Header/header-selectors";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);

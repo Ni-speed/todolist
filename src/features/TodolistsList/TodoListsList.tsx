@@ -11,12 +11,13 @@ import {
   TodolistDomainType,
   todoListsActions,
 } from "./todoLists-reducer";
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import { removeTaskTC, TasksStateType, tasksThunks } from "./tasks-reducer";
-import { TaskStatuses } from "api/todolist-api";
+import { TaskStatuses } from "common/api/todolist-api";
 import { Navigate } from "react-router-dom";
 import { selectorTasks, selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { selectorIsInitialized } from "app/app-selectors";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const TodoListsList = () => {
   const todoLists = useAppSelector<TodolistDomainType[]>(selectorTodoLists);

@@ -6,10 +6,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import { FilterValueType } from "../todoLists-reducer";
 import { Task } from "./Task/Task";
-import { TaskStatuses, TaskType } from "api/todolist-api";
-import { useAppDispatch } from "app/store";
+import { TaskStatuses, TaskType } from "common/api/todolist-api";
 import { RequestStatusType } from "app/app-reducer";
 import { tasksThunks } from "features/TodolistsList/tasks-reducer";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type TodolistType = {
   title: string;

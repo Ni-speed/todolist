@@ -1,10 +1,9 @@
-import { todoListApi, TodoListType } from "api/todolist-api";
+import { todoListApi, TodoListType } from "common/api/todolist-api";
 import { appActions, RequestStatusType } from "app/app-reducer";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTaskTodoList } from "common/actions/common-actions";
-import { handleServerNetworkError } from "utils/handle-server-network-error";
-import { handleServerAppError } from "utils/handle-server-app-error";
+import { handleServerAppError, handleServerNetworkError } from "common/utils";
 
 export type FilterValueType = "all" | "active" | "completed";
 
