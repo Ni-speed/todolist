@@ -1,12 +1,3 @@
-import {
-  AddTaskArgType,
-  TaskPriorities,
-  TaskStatuses,
-  TaskType,
-  todoListApi,
-  UpdateTaskArgType,
-  UpdateTaskModelType,
-} from "common/api/todolist-api";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
@@ -15,6 +6,14 @@ import { clearTaskTodoList } from "common/actions/common-actions";
 
 import { createAppAsyncThunk } from "common/utils/create-app=async-thunk";
 import { handleServerAppError, handleServerNetworkError } from "common/utils";
+import {
+  AddTaskArgType,
+  TaskType,
+  todoListApi,
+  UpdateTaskArgType,
+  UpdateTaskModelType,
+} from "features/TodolistsList/todolist-api";
+import { ResultCode, TaskPriorities, TaskStatuses } from "common/enums";
 
 //Types
 export type TasksStateType = {
@@ -88,11 +87,6 @@ const getTasks = createAppAsyncThunk<{ tasks: TaskType[]; todoListId: string }, 
     }
   },
 );
-enum ResultCode {
-  success,
-  error,
-  captcha = 10,
-}
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(`tasks/addTask`, async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;

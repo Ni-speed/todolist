@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect } from "react";
-import { AddItemForm } from "components/AddItemForn/AddItemForm";
-import { EditableSpan } from "components/EditableSpan/EditableSpan";
+import { AddItemForm } from "common/components";
+import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import { FilterValueType } from "../todoLists-reducer";
 import { Task } from "./Task/Task";
-import { TaskStatuses, TaskType } from "common/api/todolist-api";
 import { RequestStatusType } from "app/app-reducer";
 import { tasksThunks } from "features/TodolistsList/tasks-reducer";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks";
+import { TaskType } from "features/TodolistsList/todolist-api";
+import { TaskStatuses } from "common/enums";
 
 type TodolistType = {
   title: string;

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from "react";
 import { Grid } from "@mui/material";
-import { AddItemForm } from "components/AddItemForn/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
 import {
   addTodoListTC,
@@ -13,11 +12,12 @@ import {
 } from "./todoLists-reducer";
 import { useAppSelector } from "app/store";
 import { removeTaskTC, TasksStateType, tasksThunks } from "./tasks-reducer";
-import { TaskStatuses } from "common/api/todolist-api";
 import { Navigate } from "react-router-dom";
 import { selectorTasks, selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { selectorIsInitialized } from "app/app-selectors";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks";
+import { TaskStatuses } from "common/enums";
+import { AddItemForm } from "common/components";
 
 export const TodoListsList = () => {
   const todoLists = useAppSelector<TodolistDomainType[]>(selectorTodoLists);

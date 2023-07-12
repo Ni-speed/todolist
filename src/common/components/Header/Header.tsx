@@ -6,13 +6,13 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { LinearBuffer } from "../LinearProgress/LinerProgress";
+import { LinearBuffer } from "common/components/LinearProgress/LinerProgress";
 import { useAppSelector } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
-import { logoutTC } from "features/Login/auth-reducer";
+import { logoutTC } from "features/auth/auth-reducer";
 import { useCallback } from "react";
-import { selectorIsLoggedIn, selectorStatus } from "components/Header/header-selectors";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { selectorIsLoggedIn, selectorStatus } from "common/components/Header/header-selectors";
+import { useAppDispatch } from "common/hooks";
 
 export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);

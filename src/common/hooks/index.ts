@@ -1,1 +1,1 @@
-import { useAppDispatch } from "./useAppDispatch";
+export { useAppDispatch } from "./useAppDispatch";

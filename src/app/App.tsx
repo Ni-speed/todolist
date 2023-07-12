@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Header } from "components/Header/Header";
 import { CircularProgress, Container } from "@mui/material";
 import { TodoListsList } from "features/TodolistsList/TodoListsList";
-import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login } from "features/Login/Login";
+import { Login } from "features/auth/Login";
 import { useAppSelector } from "./store";
 import { meTC } from "app/app-reducer";
 import { selectorIsInitialized } from "app/app-selectors";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
-// import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks";
+import { ErrorSnackbar, Header } from "common/components";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -12,7 +12,7 @@ import { useAppSelector } from "app/store";
 import { loginTC } from "./auth-reducer";
 import { Navigate } from "react-router-dom";
 import { selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks";
 
 type FormikErrorType = {
   email?: string;
