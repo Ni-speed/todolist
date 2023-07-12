@@ -95,7 +95,7 @@ test(`correct task should be added to correct array`, () => {
   };
   const endState = tasksReducer(
     startState,
-    tasksThunks.addTask.fulfilled({ task: newTask }, "reauestId", {
+    tasksThunks.addTask.fulfilled({ task: newTask }, "requestId", {
       title: newTask.title,
       todoListId: newTask.todoListId,
     }),
@@ -109,19 +109,15 @@ test(`correct task should be added to correct array`, () => {
 });
 
 test(`status of specified task should be changed`, () => {
-  const endState = tasksReducer(
-    startState,
-    tasksActions.updateTask({ todoListId: "todolistID1", taskId: "2", model: { status: TaskStatuses.New } }),
-  );
+  const args = { todoListId: "todolistID1", taskId: "2", model: { status: TaskStatuses.New } };
+  const endState = tasksReducer(startState, tasksThunks.updateTask.fulfilled(args, "requestId", args));
   expect(endState["todolistID1"][1].status).toBe(TaskStatuses.New);
   expect(endState["todolistID2"][1].status).toBe(TaskStatuses.Completed);
 });
 
 test(`title if specified task should be changed`, () => {
-  const endState = tasksReducer(
-    startState,
-    tasksActions.updateTask({ todoListId: "todolistID1", taskId: "2", model: { title: "Update Task Title" } }),
-  );
+  const args = { todoListId: "todolistID1", taskId: "2", model: { title: "Update Task Title" } };
+  const endState = tasksReducer(startState, tasksThunks.updateTask.fulfilled(args, "requestId", args));
   expect(endState["todolistID1"][1].title).toBe("Update Task Title");
   expect(endState["todolistID2"][1].title).toBe("GraphQL");
 });
