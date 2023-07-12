@@ -93,7 +93,13 @@ test(`correct task should be added to correct array`, () => {
     order: 0,
     addedDate: "",
   };
-  const endState = tasksReducer(startState, tasksActions.addTask({ task: newTask }));
+  const endState = tasksReducer(
+    startState,
+    tasksThunks.addTask.fulfilled({ task: newTask }, "reauestId", {
+      title: newTask.title,
+      todoListId: newTask.todoListId,
+    }),
+  );
 
   expect(endState["todolistID1"].length).toBe(4);
   expect(endState["todolistID2"].length).toBe(2);

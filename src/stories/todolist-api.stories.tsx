@@ -110,7 +110,7 @@ export const CreateTask = () => {
     setTitle(e.currentTarget.value);
   };
   const addHandler = async () => {
-    let response = await todoListApi.createTask(todoListId, title);
+    let response = await todoListApi.createTask({ todoListId, title });
     setState(response.data);
   };
   return (

@@ -12,7 +12,7 @@ import {
   todoListsActions,
 } from "./todoLists-reducer";
 import { useAppDispatch, useAppSelector } from "app/store";
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "./tasks-reducer";
+import { removeTaskTC, TasksStateType, tasksThunks, updateTaskTC } from "./tasks-reducer";
 import { TaskStatuses } from "api/todolist-api";
 import { Navigate } from "react-router-dom";
 import { selectorTasks, selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
@@ -32,7 +32,7 @@ export const TodoListsList = () => {
   }, []);
   //Tasks
   const addTask = useCallback((todoListId: string, title: string) => {
-    dispatch(addTaskTC(todoListId, title));
+    dispatch(tasksThunks.addTask({ todoListId, title }));
   }, []);
 
   const removeTask = useCallback((todoListId: string, taskId: string) => {
