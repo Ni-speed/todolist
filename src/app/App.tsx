@@ -5,17 +5,17 @@ import { TodoListsList } from "features/TodolistsList/TodoListsList";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "features/auth/Login";
 import { useAppSelector } from "./store";
-import { meTC } from "app/app-reducer";
 import { selectorIsInitialized } from "app/app-selectors";
 import { useAppDispatch } from "common/hooks";
 import { ErrorSnackbar, Header } from "common/components";
+import { authThunks } from "features/auth/auth-reducer";
 
 function App() {
   const dispatch = useAppDispatch();
   const isInitialized = useAppSelector<boolean>(selectorIsInitialized);
 
   useEffect(() => {
-    dispatch(meTC());
+    dispatch(authThunks.initializeApp());
   }, []);
 
   if (!isInitialized) {

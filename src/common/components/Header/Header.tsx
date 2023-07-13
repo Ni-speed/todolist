@@ -9,11 +9,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { LinearBuffer } from "common/components/LinearProgress/LinerProgress";
 import { useAppSelector } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
-import { logoutTC } from "features/auth/auth-reducer";
 import { useCallback } from "react";
 import { selectorIsLoggedIn } from "features/auth/auth-selectors";
 import { useAppDispatch } from "common/hooks";
 import { selectorStatus } from "app/app-selectors";
+import { authThunks } from "features/auth/auth-reducer";
 
 export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);
@@ -22,7 +22,7 @@ export const Header = () => {
 
   const logoutHandler = useCallback(() => {
     debugger;
-    dispatch(logoutTC());
+    dispatch(authThunks.logout());
   }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
