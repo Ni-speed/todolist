@@ -80,7 +80,7 @@ const removeTodoList = createAppAsyncThunk<{ todoListId: string }, string>(
     try {
       let response = await todoListApi.deleteTodolist(todoListId);
       if (response.data.resultCode === ResultCode.success) {
-        dispatch(appActions.setAppStatus({ status: "loading" }));
+        dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todoListId };
       } else {
         handleServerAppError(response.data, dispatch);

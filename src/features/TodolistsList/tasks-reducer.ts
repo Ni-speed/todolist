@@ -112,7 +112,6 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
   `tasks/updateTask`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-
     try {
       dispatch(appActions.setAppStatus({ status: "loading" }));
       const task = getState().tasks[arg.todoListId].find((t) => t.id === arg.taskId);

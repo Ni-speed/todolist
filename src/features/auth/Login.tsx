@@ -9,10 +9,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { useAppSelector } from "app/store";
-import { loginTC } from "./auth-reducer";
 import { Navigate } from "react-router-dom";
 import { selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { useAppDispatch } from "common/hooks";
+import { authThunks } from "features/auth/auth-reducer";
 
 type FormikErrorType = {
   email?: string;
@@ -43,7 +43,7 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values));
+      dispatch(authThunks.login(values));
       formik.resetForm();
     },
   });
