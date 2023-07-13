@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk } from "app/store";
+import { createSlice } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { clearTaskTodoList } from "common/actions";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
@@ -73,21 +72,18 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>(`auth/logout`,
 
 const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>(`app/initializeApp`, async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
     let response = await authApi.me();
     if (response.data.resultCode === ResultCode.success) {
-      dispatch(appActions.setAppInitialize({ isInitialized: true }));
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
-      handleServerAppError(response.data, dispatch);
-      dispatch(appActions.setAppInitialize({ isInitialized: true }));
       return rejectWithValue(null);
     }
   } catch (e) {
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
+  } finally {
+    dispatch(appActions.setAppInitialize({ isInitialized: true }));
   }
 });
 
