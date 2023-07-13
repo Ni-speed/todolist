@@ -10,16 +10,18 @@ import { selectorIsInitialized } from "app/app-selectors";
 import { useAppDispatch } from "common/hooks";
 import { TaskStatuses } from "common/enums";
 import { AddItemForm } from "common/components";
+import { selectorIsLoggedIn } from "features/auth/auth-selectors";
 
 export const TodoListsList = () => {
   const todoLists = useAppSelector<TodolistDomainType[]>(selectorTodoLists);
   const tasks = useAppSelector<TasksStateType>(selectorTasks);
-  const isLoggedIn = useAppSelector(selectorIsInitialized);
+  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isLoggedIn) {
+      debugger;
       dispatch(todoListThunks.getTodoLists());
     }
   }, []);
@@ -56,7 +58,9 @@ export const TodoListsList = () => {
   const changeFilter = useCallback((todoListId: string, filter: FilterValueType) => {
     dispatch(todoListsActions.changeFilter({ todoListId: todoListId, filter: filter }));
   }, []);
+
   if (!isLoggedIn) {
+    debugger;
     return <Navigate to={"/login"} />;
   }
   return (

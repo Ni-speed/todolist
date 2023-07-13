@@ -13,11 +13,11 @@ import { ErrorSnackbar, Header } from "common/components";
 function App() {
   const dispatch = useAppDispatch();
   const isInitialized = useAppSelector<boolean>(selectorIsInitialized);
-  console.log("isInitialized: ", isInitialized);
-  console.log("Render App");
+
   useEffect(() => {
     dispatch(meTC());
   }, []);
+
   if (!isInitialized) {
     return (
       <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>

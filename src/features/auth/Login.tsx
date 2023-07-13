@@ -13,6 +13,7 @@ import { Navigate } from "react-router-dom";
 import { selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { useAppDispatch } from "common/hooks";
 import { authThunks } from "features/auth/auth-reducer";
+import { selectorIsLoggedIn } from "features/auth/auth-selectors";
 
 type FormikErrorType = {
   email?: string;
@@ -21,7 +22,8 @@ type FormikErrorType = {
 };
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector(selectorTodoLists);
+  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
+
   const formik = useFormik({
     initialValues: {
       email: "",

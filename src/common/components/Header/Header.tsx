@@ -19,7 +19,9 @@ export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);
   const isLoggedIn = useAppSelector<boolean>(selectorIsLoggedIn);
   const dispatch = useAppDispatch();
+
   const logoutHandler = useCallback(() => {
+    debugger;
     dispatch(logoutTC());
   }, []);
   return (
