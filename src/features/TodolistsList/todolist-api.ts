@@ -12,8 +12,8 @@ export const todoListApi = {
   deleteTodolist(todolistId: string) {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}`);
   },
-  updateTodolistTitle(todolistId: string, title: string) {
-    return instance.put<ResponseType>(`/todo-lists/${todolistId}`, { title });
+  updateTodolistTitle(arg: UpdateTodolistTitleArgType) {
+    return instance.put<ResponseType>(`/todo-lists/${arg.todoListId}`, { title: arg.title });
   },
   getTask(todolistId: string) {
     return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`);
@@ -61,4 +61,6 @@ export type UpdateTaskModelType = {
   deadline: string;
 };
 export type AddTaskArgType = { todoListId: string; title: string };
+export type UpdateTodolistTitleArgType = { todoListId: string; title: string };
+export type RemoveTaskArgType = { todoListId: string; taskId: string };
 export type UpdateTaskArgType = { todoListId: string; taskId: string; model: UpdateDomainTaskModelType };

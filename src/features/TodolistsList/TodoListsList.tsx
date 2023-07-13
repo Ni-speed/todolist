@@ -1,17 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { Grid } from "@mui/material";
 import { Todolist } from "./Todolist/Todolist";
-import {
-  addTodoListTC,
-  changeTodoListTitleTC,
-  FilterValueType,
-  getTodoListTC,
-  removeTodoListTC,
-  TodolistDomainType,
-  todoListsActions,
-} from "./todoLists-reducer";
+import { FilterValueType, TodolistDomainType, todoListsActions, todoListThunks } from "./todoLists-reducer";
 import { useAppSelector } from "app/store";
-import { removeTaskTC, TasksStateType, tasksThunks } from "./tasks-reducer";
+import { TasksStateType, tasksThunks } from "./tasks-reducer";
 import { Navigate } from "react-router-dom";
 import { selectorTasks, selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { selectorIsInitialized } from "app/app-selectors";
@@ -28,7 +20,7 @@ export const TodoListsList = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(getTodoListTC());
+      dispatch(todoListThunks.getTodoLists());
     }
   }, []);
   //Tasks
@@ -37,7 +29,7 @@ export const TodoListsList = () => {
   }, []);
 
   const removeTask = useCallback((todoListId: string, taskId: string) => {
-    dispatch(removeTaskTC(todoListId, taskId));
+    dispatch(tasksThunks.removeTask({ todoListId, taskId }));
   }, []);
 
   const changeTaskStatus = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
@@ -50,15 +42,15 @@ export const TodoListsList = () => {
 
   //Todolist
   const removeTodoList = useCallback((todoListId: string) => {
-    dispatch(removeTodoListTC(todoListId));
+    dispatch(todoListThunks.removeTodoList(todoListId));
   }, []);
 
   const addTodoList = useCallback((title: string) => {
-    dispatch(addTodoListTC(title));
+    dispatch(todoListThunks.addTodoList(title));
   }, []);
 
   const changeTodoListTitle = useCallback((todoListId: string, title: string) => {
-    dispatch(changeTodoListTitleTC(todoListId, title));
+    dispatch(todoListThunks.changeTodoListTitle({ todoListId, title }));
   }, []);
 
   const changeFilter = useCallback((todoListId: string, filter: FilterValueType) => {

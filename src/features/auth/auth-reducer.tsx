@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "app/store";
 import { appActions } from "app/app-reducer";
-import { clearTaskTodoList } from "common/actions/common-actions";
+import { clearTaskTodoList } from "common/actions";
 import { handleServerAppError, handleServerNetworkError } from "common/utils";
 import { authApi, LoginType } from "features/auth/auth-api";
 

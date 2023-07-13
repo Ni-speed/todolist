@@ -1,5 +1,5 @@
-import { tasksActions, tasksReducer, TasksStateType, tasksThunks } from "features/TodolistsList/tasks-reducer";
-import { todoListsActions } from "features/TodolistsList/todoLists-reducer";
+import { tasksReducer, TasksStateType, tasksThunks } from "features/TodolistsList/tasks-reducer";
+import { todoListThunks } from "features/TodolistsList/todoLists-reducer";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 
 let startState: TasksStateType;
@@ -73,7 +73,8 @@ beforeEach(() => {
 });
 
 test(`correct task should be deleted from correct array`, () => {
-  const endState = tasksReducer(startState, tasksActions.removeTask({ todoListId: "todolistID1", taskId: "2" }));
+  const args = { todoListId: "todolistID1", taskId: "2" };
+  const endState = tasksReducer(startState, tasksThunks.removeTask.fulfilled(args, "requestId", args));
   console.log(endState);
   expect(endState["todolistID1"].length).toBe(2);
   expect(endState["todolistID2"].length).toBe(2);
@@ -123,16 +124,15 @@ test(`title if specified task should be changed`, () => {
 });
 
 test("new array should be added when new todolist is added", () => {
+  const todoList = {
+    id: "1",
+    addedDate: "",
+    order: 0,
+    title: " ",
+  };
   const endState = tasksReducer(
     startState,
-    todoListsActions.addTodolist({
-      todoList: {
-        id: "1",
-        addedDate: "",
-        order: 0,
-        title: " ",
-      },
-    }),
+    todoListThunks.addTodoList.fulfilled({ todoList }, "requestId", todoList.title),
   );
 
   const keys = Object.keys(endState);
@@ -146,7 +146,10 @@ test("new array should be added when new todolist is added", () => {
 });
 
 test(`property with todolistId should be deleted`, () => {
-  const endState = tasksReducer(startState, todoListsActions.removeTodoList({ todoListId: "todolistID1" }));
+  const endState = tasksReducer(
+    startState,
+    todoListThunks.removeTodoList.fulfilled({ todoListId: "todolistID1" }, "requestId", "todolistID1"),
+  );
   const keys = Object.keys(endState);
 
   expect(keys.length).toBe(1);

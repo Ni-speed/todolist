@@ -4,6 +4,7 @@ import {
   TodolistDomainType,
   todoListsActions,
   todoListsReducer,
+  todoListThunks,
 } from "features/TodolistsList/todoLists-reducer";
 
 let todolistID1: string;
@@ -24,17 +25,17 @@ test(`correct todolist should be added`, () => {
     order: 0,
     title: "New TodoList Title",
   };
-  const endState = todoListsReducer(startState, todoListsActions.addTodolist({ todoList: NewTODO }));
+  const endState = todoListsReducer(
+    startState,
+    todoListThunks.addTodoList.fulfilled({ todoList: NewTODO }, "requestId", NewTODO.title),
+  );
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(NewTODO.title);
 });
 test(`correct todolist should change its name`, () => {
   let newTodolistTitle = "New Title";
-
-  const endState = todoListsReducer(
-    startState,
-    todoListsActions.changeTodoListTitle({ todoListId: todolistID1, title: newTodolistTitle }),
-  );
+  const args = { todoListId: todolistID1, title: newTodolistTitle };
+  const endState = todoListsReducer(startState, todoListThunks.changeTodoListTitle.fulfilled(args, "requestId", args));
 
   expect(endState.length).toBe(2);
   expect(endState[0].title).toBe(newTodolistTitle);

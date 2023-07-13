@@ -12,7 +12,6 @@ import { ErrorSnackbar, Header } from "common/components";
 
 function App() {
   const dispatch = useAppDispatch();
-  // const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized);
   const isInitialized = useAppSelector<boolean>(selectorIsInitialized);
   console.log("isInitialized: ", isInitialized);
   console.log("Render App");

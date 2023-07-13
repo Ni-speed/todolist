@@ -11,8 +11,9 @@ import { useAppSelector } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
 import { logoutTC } from "features/auth/auth-reducer";
 import { useCallback } from "react";
-import { selectorIsLoggedIn, selectorStatus } from "common/components/Header/header-selectors";
+import { selectorIsLoggedIn } from "features/auth/auth-selectors";
 import { useAppDispatch } from "common/hooks";
+import { selectorStatus } from "app/app-selectors";
 
 export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);

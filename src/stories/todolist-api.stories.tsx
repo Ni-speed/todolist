@@ -56,7 +56,7 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
   const [state, setState] = useState<any>(null);
   const [todoListId, setTodoListId] = useState<string>("");
-  const [newTitle, setNewTitle] = useState<string>("");
+  const [title, setNewTitle] = useState<string>("");
 
   const newTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.currentTarget.value);
@@ -65,14 +65,14 @@ export const UpdateTodolistTitle = () => {
     setTodoListId(e.currentTarget.value);
   };
   const changeTitleHandler = () => {
-    todoListApi.updateTodolistTitle(todoListId, newTitle).then((res) => {
+    todoListApi.updateTodolistTitle({ todoListId, title }).then((res) => {
       setState(res.data);
     });
   };
   return (
     <div>
       {JSON.stringify(state)}
-      <input placeholder={"Enter new title"} value={newTitle} onChange={newTitleHandler} />
+      <input placeholder={"Enter new title"} value={title} onChange={newTitleHandler} />
       <input placeholder={"todoListId"} value={todoListId} onChange={todoListIdHandler} />
       <button onClick={changeTitleHandler}>Change Title</button>
     </div>
