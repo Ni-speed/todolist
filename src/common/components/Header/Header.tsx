@@ -11,18 +11,18 @@ import { useAppSelector } from "app/store";
 import { RequestStatusType } from "app/app-reducer";
 import { useCallback } from "react";
 import { selectorIsLoggedIn } from "features/auth/auth-selectors";
-import { useAppDispatch } from "common/hooks";
+import { useActions, useAppDispatch } from "common/hooks";
 import { selectorStatus } from "app/app-selectors";
 import { authThunks } from "features/auth/auth-reducer";
 
 export const Header = () => {
   const status = useAppSelector<RequestStatusType>(selectorStatus);
   const isLoggedIn = useAppSelector<boolean>(selectorIsLoggedIn);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { logout } = useActions(authThunks);
 
   const logoutHandler = useCallback(() => {
-    debugger;
-    dispatch(authThunks.logout());
+    logout();
   }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>

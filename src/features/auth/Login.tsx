@@ -10,10 +10,12 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
-import { selectorTodoLists } from "features/TodolistsList/todolist-list-selectors";
 import { useAppDispatch } from "common/hooks";
 import { authThunks } from "features/auth/auth-reducer";
 import { selectorIsLoggedIn } from "features/auth/auth-selectors";
+import { FormikHelpers } from "formik/dist/types";
+import { LoginType } from "features/auth/auth-api";
+import { ResponseType } from "common/types";
 
 type FormikErrorType = {
   email?: string;
@@ -44,9 +46,15 @@ export const Login = () => {
       }
       return errors;
     },
-    onSubmit: (values) => {
-      dispatch(authThunks.login(values));
-      formik.resetForm();
+    onSubmit: (values, formikHelpers: FormikHelpers<LoginType>) => {
+      dispatch(authThunks.login(values))
+        .unwrap()
+        .catch((reason: ResponseType) => {
+          reason.fieldsErrors?.forEach((fieldError) => {
+            formikHelpers.setFieldError(fieldError.field, fieldError.error);
+          });
+        });
+      // formik.resetForm();
     },
   });
   if (isLoggedIn) {

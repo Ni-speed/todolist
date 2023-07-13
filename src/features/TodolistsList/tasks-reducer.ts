@@ -13,6 +13,7 @@ import {
 } from "features/TodolistsList/todolist-api";
 import { ResultCode, TaskPriorities, TaskStatuses } from "common/enums";
 import { clearTaskTodoList } from "common/actions";
+import { thunkTryCatch } from "common/utils/thunk-type-catch";
 
 //Types
 export type TasksStateType = {
@@ -74,6 +75,7 @@ const getTasks = createAppAsyncThunk<{ tasks: TaskType[]; todoListId: string }, 
   `tasks/getTasks`,
   async (todoListId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
+
     dispatch(appActions.setAppStatus({ status: "loading" }));
     try {
       let response = await todoListApi.getTask(todoListId);
@@ -88,24 +90,17 @@ const getTasks = createAppAsyncThunk<{ tasks: TaskType[]; todoListId: string }, 
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>(`tasks/addTask`, async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
-    dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "loading" }));
+  return thunkTryCatch(thunkAPI, async () => {
     let response = await todoListApi.createTask(arg);
     if (response.data.resultCode === ResultCode.success) {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
       dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "succeeded" }));
       return { task: response.data.data.item };
     } else {
+      dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "succeeded" }));
       handleServerAppError(response.data, dispatch);
       return rejectWithValue(null);
     }
-  } catch (error) {
-    handleServerNetworkError(error, dispatch);
-    return rejectWithValue(null);
-  } finally {
-    dispatch(todoListsActions.changeTodolistEntityStatus({ todoListId: arg.todoListId, status: "succeeded" }));
-  }
+  });
 });
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
@@ -168,5 +163,4 @@ const removeTask = createAppAsyncThunk<RemoveTaskArgType, RemoveTaskArgType>(
 );
 
 export const tasksReducer = slice.reducer;
-export const tasksActions = slice.actions;
 export const tasksThunks = { getTasks, addTask, updateTask, removeTask };

@@ -40,10 +40,14 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginType>(`auth/logi
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
-      handleServerAppError(response.data, dispatch);
-      return rejectWithValue(null);
+      // ❗ Если у нас fieldsErrors есть значит мы будем отображать эти ошибки
+      // в конкретном поле в компоненте (пункт 7)
+      // ❗ Если у нас fieldsErrors нету значит отобразим ошибку глобально
+      const isShowAppError = !response.data.fieldsErrors.length;
+      handleServerAppError(response.data, dispatch, isShowAppError);
+      return rejectWithValue(response.data);
     }
-  } catch (e: any) {
+  } catch (e) {
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
   } finally {

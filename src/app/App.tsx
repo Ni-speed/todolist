@@ -6,16 +6,17 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "features/auth/Login";
 import { useAppSelector } from "./store";
 import { selectorIsInitialized } from "app/app-selectors";
-import { useAppDispatch } from "common/hooks";
+import { useActions, useAppDispatch } from "common/hooks";
 import { ErrorSnackbar, Header } from "common/components";
 import { authThunks } from "features/auth/auth-reducer";
 
 function App() {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { initializeApp } = useActions(authThunks);
   const isInitialized = useAppSelector<boolean>(selectorIsInitialized);
 
   useEffect(() => {
-    dispatch(authThunks.initializeApp());
+    initializeApp();
   }, []);
 
   if (!isInitialized) {
